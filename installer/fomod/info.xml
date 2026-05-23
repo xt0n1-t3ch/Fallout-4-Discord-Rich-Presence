@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fomod>
+    <Name>Discord Rich Presence F4SE NG (cross-gen)</Name>
+    <Author>xt0n1</Author>
+    <Version MachineVersion="0.1.0.0">0.1.0</Version>
+    <Website>https://github.com/xt0n1/Fallout4-Discord-Rich-Presence-NG</Website>
+    <Description>Single-DLL Discord Rich Presence for Fallout 4. Works on old-gen 1.10.163 and the entire next-gen family (1.10.984 / 1.11.169 / 1.11.191).</Description>
+    <Groups>
+        <element>Utilities</element>
+    </Groups>
+</fomod>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+    <moduleName>Discord Rich Presence F4SE NG</moduleName>
+    <requiredInstallFiles>
+        <folder source="payload\Data" destination="Data" priority="0" />
+    </requiredInstallFiles>
+    <installSteps order="Explicit">
+        <installStep name="Installation">
+            <optionalFileGroups order="Explicit">
+                <group name="Notes" type="SelectAll">
+                    <plugins order="Explicit">
+                        <plugin name="Discord Rich Presence F4SE NG (mandatory)">
+                            <description>This will install the single DLL that works on both old-gen (1.10.163) and the entire next-gen family (1.10.984 / 1.11.169 / 1.11.191). Discord must be running for Rich Presence to appear.</description>
+                            <typeDescriptor>
+                                <type name="Required" />
+                            </typeDescriptor>
+                        </plugin>
+                    </plugins>
+                </group>
+            </optionalFileGroups>
+        </installStep>
+    </installSteps>
+</config>

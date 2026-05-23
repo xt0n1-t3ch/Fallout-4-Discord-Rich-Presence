@@ -1,0 +1,70 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 27, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "common",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
+      }
+    },
+    {
+      "name": "flat-ng-release",
+      "displayName": "Fallout 4 NG (1.10.984+) Release",
+      "inherits": "common",
+      "cacheVariables": {
+        "F4DRP_TARGET_RUNTIME": "NG",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "flat-ng-debug",
+      "displayName": "Fallout 4 NG (1.10.984+) Debug",
+      "inherits": "common",
+      "cacheVariables": {
+        "F4DRP_TARGET_RUNTIME": "NG",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "flat-pre-ng-release",
+      "displayName": "Fallout 4 OG (1.10.163) Release",
+      "inherits": "common",
+      "cacheVariables": {
+        "F4DRP_TARGET_RUNTIME": "PRE_NG",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "flat-pre-ng-debug",
+      "displayName": "Fallout 4 OG (1.10.163) Debug",
+      "inherits": "common",
+      "cacheVariables": {
+        "F4DRP_TARGET_RUNTIME": "PRE_NG",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "flat-ng-release",     "configurePreset": "flat-ng-release" },
+    { "name": "flat-ng-debug",       "configurePreset": "flat-ng-debug" },
+    { "name": "flat-pre-ng-release", "configurePreset": "flat-pre-ng-release" },
+    { "name": "flat-pre-ng-debug",   "configurePreset": "flat-pre-ng-debug" }
+  ],
+  "testPresets": [
+    {
+      "name": "flat-ng-debug",
+      "configurePreset": "flat-ng-debug",
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error", "stopOnFailure": false }
+    }
+  ]
+}

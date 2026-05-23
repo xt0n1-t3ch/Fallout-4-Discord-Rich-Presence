@@ -1,0 +1,16 @@
+{
+  "cmd": "SET_ACTIVITY",
+  "nonce": "nonce-0001",
+  "args": {
+    "pid": 4242,
+    "activity": {
+      "details": "In Pipboy Menu",
+      "state": "Sole Survivor | LVL 12 | HP 85% | 1234 caps",
+      "assets": {
+        "large_image": "fallout4",
+        "large_text": "Fallout 4"
+      },
+      "timestamps": { "start": 1716595200 }
+    }
+  }
+}
