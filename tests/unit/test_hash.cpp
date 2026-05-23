@@ -4,7 +4,7 @@
 
 TEST_CASE("fnv1a64 empty string returns offset basis", "[hash][null-empty]")
 {
-    REQUIRE(F4DRP::Util::fnv1a64("") == 1469598103934665603ULL);
+    REQUIRE(F4DRP::Util::fnv1a64("") == 0xCBF29CE484222325ULL);
 }
 
 TEST_CASE("fnv1a64 differs across distinct inputs", "[hash][format]")

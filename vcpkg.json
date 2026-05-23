@@ -9,6 +9,9 @@
     "nlohmann-json",
     "simpleini",
     "catch2",
-    "fmt"
+    "fmt",
+    "boost-stl-interfaces",
+    "rsm-mmio",
+    "rapidcsv"
   ]
 }

@@ -32,7 +32,8 @@ TEST_CASE("RateLimiter enforces 5-in-20s ceiling", "[ratelimit][boundary]")
     REQUIRE(rl.admit(0x02, t0 + 6s, 5).send);
     REQUIRE(rl.admit(0x03, t0 + 12s, 5).send);
     REQUIRE(rl.admit(0x04, t0 + 18s, 5).send);
-    REQUIRE_FALSE(rl.admit(0x05, t0 + 18500ms, 5).send);
+    REQUIRE(rl.admit(0x05, t0 + 18500ms, 5).send);
+    REQUIRE_FALSE(rl.admit(0x06, t0 + 19000ms, 5).send);
 }
 
 TEST_CASE("RateLimiter floors updateInterval to kUpdateIntervalFloorSec", "[ratelimit][boundary]")

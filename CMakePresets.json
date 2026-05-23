@@ -12,7 +12,7 @@
         "CMAKE_CXX_STANDARD": "23",
         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
         "CMAKE_CXX_EXTENSIONS": "OFF",
-        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
       }
     },

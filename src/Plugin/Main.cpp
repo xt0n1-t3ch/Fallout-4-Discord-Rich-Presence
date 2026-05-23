@@ -122,6 +122,16 @@ void onF4SEMessage(F4SE::MessagingInterface::Message* msg)
         break;
     }
 }
+std::filesystem::path computePluginDir()
+{
+    HMODULE thisModule = nullptr;
+    ::GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                         reinterpret_cast<LPCWSTR>(&runtime),
+                         &thisModule);
+    wchar_t buf[MAX_PATH]{};
+    ::GetModuleFileNameW(thisModule, buf, MAX_PATH);
+    return std::filesystem::path{buf}.parent_path();
+}
 } // namespace
 
 extern "C" __declspec(dllexport) constinit auto F4SEPlugin_Version = []() noexcept {
@@ -143,7 +153,7 @@ extern "C" __declspec(dllexport) bool F4SEPlugin_Load(const F4SE::LoadInterface*
     F4SE::Init(a_f4se);
 
     auto& rt = runtime();
-    rt.pluginDir = std::filesystem::path{a_f4se->GetPluginPath()};
+    rt.pluginDir = computePluginDir();
 
     const auto docs = documentsFallout4Path();
     F4DRP::Util::Logger::install(docs / std::string{F4DRP::Constants::kLogFileName}, false);
@@ -166,7 +176,8 @@ extern "C" __declspec(dllexport) bool F4SEPlugin_Load(const F4SE::LoadInterface*
     const auto appId = rt.settings.appId.empty() ? std::string{F4DRP::Constants::kDefaultAppId} : rt.settings.appId;
     rt.discord.start(appId);
 
-    if (auto* mi = a_f4se->GetMessagingInterface()) {
+    auto* mi = static_cast<const F4SE::MessagingInterface*>(a_f4se->QueryInterface(F4SE::LoadInterface::kMessaging));
+    if (mi != nullptr) {
         mi->RegisterListener(onF4SEMessage);
     }
     else {

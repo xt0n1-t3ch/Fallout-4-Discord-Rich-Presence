@@ -31,8 +31,22 @@ function Ensure-VcpkgRoot {
     Write-Output "VCPKG_ROOT = $env:VCPKG_ROOT"
 }
 
+function Add-VcpkgTools {
+    $ninjaDir = Get-ChildItem "$env:VCPKG_ROOT\downloads\tools" -Filter 'ninja.exe' -Recurse -ErrorAction SilentlyContinue |
+        Select-Object -First 1 | ForEach-Object { $_.DirectoryName }
+    $cmakeDir = Get-ChildItem "$env:VCPKG_ROOT\downloads\tools" -Filter 'cmake.exe' -Recurse -ErrorAction SilentlyContinue |
+        Select-Object -First 1 | ForEach-Object { $_.DirectoryName }
+    if (-not $ninjaDir) { throw 'ninja not found under vcpkg/downloads/tools' }
+    if (-not $cmakeDir) { throw 'vcpkg-bundled cmake not found under vcpkg/downloads/tools' }
+    $env:Path = "$cmakeDir;$ninjaDir;" + $env:Path
+    Write-Output "Added to PATH: $ninjaDir, $cmakeDir"
+    Write-Output "cmake -> $(Get-Command cmake | Select-Object -ExpandProperty Source)"
+    Write-Output "ninja -> $(Get-Command ninja | Select-Object -ExpandProperty Source)"
+}
+
 Import-VsDevCmd
 Ensure-VcpkgRoot
+Add-VcpkgTools
 
 Set-Location $repo
 Write-Output "PWD = $((Get-Location).Path)"

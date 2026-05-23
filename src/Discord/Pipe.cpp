@@ -28,7 +28,7 @@ bool Pipe::open()
 {
     close();
     for (int i = Constants::kPipeIndexMin; i <= Constants::kPipeIndexMax; ++i) {
-        auto path = fmt::format(std::wstring{Constants::kPipePathFormat}, i);
+        auto path = fmt::format(fmt::runtime(std::wstring{Constants::kPipePathFormat}), i);
         HANDLE h = ::CreateFileW(path.c_str(), GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
         if (h != INVALID_HANDLE_VALUE) {
             m_handleRaw = h;

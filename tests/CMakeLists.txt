@@ -14,6 +14,7 @@ add_executable(f4drp_tests
 target_include_directories(f4drp_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/..
     ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    ${SIMPLEINI_INCLUDE_DIRS}
 )
 
 target_sources(f4drp_tests PRIVATE
@@ -30,15 +31,12 @@ target_compile_definitions(f4drp_tests PRIVATE
     F4DRP_TESTS=1
     UNICODE _UNICODE
     NOMINMAX WIN32_LEAN_AND_MEAN
-    SPDLOG_USE_STD_FORMAT
-    SPDLOG_WCHAR_FILENAMES
 )
 
 target_link_libraries(f4drp_tests PRIVATE
     Catch2::Catch2WithMain
     spdlog::spdlog
     nlohmann_json::nlohmann_json
-    simpleini::simpleini
     fmt::fmt
 )
 
@@ -64,7 +62,6 @@ if(F4DRP_LIVE_DISCORD)
     target_compile_definitions(f4drp_integration PRIVATE
         F4DRP_TESTS=1 F4DRP_LIVE=1
         UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN
-        SPDLOG_USE_STD_FORMAT SPDLOG_WCHAR_FILENAMES
     )
     target_link_libraries(f4drp_integration PRIVATE
         Catch2::Catch2WithMain spdlog::spdlog

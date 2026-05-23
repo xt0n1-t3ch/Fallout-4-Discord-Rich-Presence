@@ -15,24 +15,34 @@ endif()
 set(F4DRP_TARGET_RUNTIME "NG" CACHE STRING "Target runtime profile (NG or PRE_NG)")
 set_property(CACHE F4DRP_TARGET_RUNTIME PROPERTY STRINGS "NG" "PRE_NG")
 
-include(FetchContent)
-
-set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
-FetchContent_Declare(
-    CommonLibF4
-    GIT_REPOSITORY https://github.com/libxse/commonlibf4.git
-    GIT_TAG        main
-    GIT_SHALLOW    ON
-)
-
 find_package(spdlog        CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(simpleini     CONFIG REQUIRED)
 find_package(fmt           CONFIG REQUIRED)
 
-option(F4DRP_FETCH_COMMONLIBF4 "Resolve CommonLibF4 via FetchContent (default ON)" ON)
-if(F4DRP_FETCH_COMMONLIBF4)
+find_path(SIMPLEINI_INCLUDE_DIRS "SimpleIni.h" REQUIRED)
+
+option(F4DRP_BUILD_PLUGIN "Build the F4SE plugin DLL (requires CommonLibF4 NG-fork + Boost + mmio + rapidcsv + VS 2022 toolchain). Default OFF; tests + IPC stack build standalone." OFF)
+
+if(F4DRP_BUILD_PLUGIN)
+    find_package(Boost  REQUIRED)
+    find_package(mmio   CONFIG REQUIRED)
+
+    include(FetchContent)
+    FetchContent_Declare(
+        CommonLibF4
+        GIT_REPOSITORY https://github.com/alandtse/CommonLibF4.git
+        GIT_TAG        master
+        GIT_SHALLOW    ON
+        SOURCE_SUBDIR  CommonLibF4
+    )
     FetchContent_MakeAvailable(CommonLibF4)
+endif()
+
+if(NOT F4DRP_BUILD_PLUGIN)
+    message(STATUS "F4DRP_BUILD_PLUGIN=OFF — skipping DLL target, tests-only build")
+    enable_testing()
+    add_subdirectory(tests)
+    return()
 endif()
 
 add_library(${PROJECT_NAME} SHARED
@@ -62,13 +72,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${SIMPLEINI_INCLUDE_DIRS}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     CommonLibF4::CommonLibF4
     spdlog::spdlog
     nlohmann_json::nlohmann_json
-    simpleini::simpleini
     fmt::fmt
 )
 
@@ -76,8 +86,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     UNICODE _UNICODE
     NOMINMAX WIN32_LEAN_AND_MEAN
     F4DRP_TARGET_RUNTIME_${F4DRP_TARGET_RUNTIME}=1
-    SPDLOG_USE_STD_FORMAT
-    SPDLOG_WCHAR_FILENAMES
+    _SILENCE_CXX23_ALIGNED_STORAGE_DEPRECATION_WARNING
+    _SILENCE_ALL_CXX23_DEPRECATION_WARNINGS
+    _SILENCE_ALL_CXX26_DEPRECATION_WARNINGS
+    _CRT_SECURE_NO_WARNINGS
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
