@@ -24,5 +24,11 @@ private:
     std::atomic<EventKind> m_kind{EventKind::None};
     std::chrono::steady_clock::time_point m_expiresAt{};
     std::mutex m_mtx;
+
+public:
+    using clock = std::chrono::steady_clock;
 };
+
+void installEventTrackerSinks();
+void uninstallEventTrackerSinks();
 } // namespace F4DRP::Game

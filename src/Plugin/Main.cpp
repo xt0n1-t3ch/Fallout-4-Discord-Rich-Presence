@@ -111,6 +111,7 @@ void onF4SEMessage(F4SE::MessagingInterface::Message* msg)
         runtime().playTime.start(std::chrono::steady_clock::now());
         F4DRP::Game::MenuTracker::instance().install();
         F4DRP::Game::CombatTracker::instance().install();
+        F4DRP::Game::installEventTrackerSinks();
         if (!runtime().pollerRunning.exchange(true)) {
             runtime().pollerThread = std::thread{pollerLoop};
         }
@@ -194,6 +195,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID)
         if (rt.pollerThread.joinable()) {
             rt.pollerThread.join();
         }
+        F4DRP::Game::uninstallEventTrackerSinks();
         F4DRP::Game::CombatTracker::instance().uninstall();
         F4DRP::Game::MenuTracker::instance().uninstall();
         rt.discord.stop();

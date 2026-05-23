@@ -58,7 +58,7 @@ jobs:
         with:
           name: f4drp-${{ matrix.preset }}
           path: |
-            build/${{ matrix.preset }}/Discord_Presence_F4SE_NG.dll
+            build/${{ matrix.preset }}/discord_rich_presence.dll
             dist/*.ini
             LICENSE
             README.md

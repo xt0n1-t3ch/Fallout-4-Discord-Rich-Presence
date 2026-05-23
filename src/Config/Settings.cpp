@@ -91,7 +91,8 @@ Settings parseFromString(const std::string& iniContents)
     s.showName = parseBool(ini.GetValue(main.c_str(), Constants::IniKey::kShowName.data()), s.showName);
     s.showLvl = parseBool(ini.GetValue(main.c_str(), Constants::IniKey::kShowLvl.data()), s.showLvl);
     s.showCaps = parseBool(ini.GetValue(main.c_str(), Constants::IniKey::kShowCaps.data()), s.showCaps);
-    s.maxCapsToShow = ini.GetLongValue(main.c_str(), Constants::IniKey::kMaxCapsToShow.data(), s.maxCapsToShow);
+    s.maxCapsToShow =
+        ini.GetLongValue(main.c_str(), Constants::IniKey::kMaxCapsToShow.data(), static_cast<long>(s.maxCapsToShow));
     s.showHp = parseBool(ini.GetValue(main.c_str(), Constants::IniKey::kShowHp.data()), s.showHp);
     s.showEventStatuses =
         parseBool(ini.GetValue(main.c_str(), Constants::IniKey::kShowEventStatuses.data()), s.showEventStatuses);

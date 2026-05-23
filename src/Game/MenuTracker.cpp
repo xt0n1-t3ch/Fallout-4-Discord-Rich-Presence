@@ -81,7 +81,7 @@ void MenuTracker::install()
         F4DRP_LOG_ERR("RE::UI singleton unavailable, MenuTracker cannot install");
         return;
     }
-    ui->AddEventSink(MenuEventSink::singleton());
+    ui->RegisterSink<RE::MenuOpenCloseEvent>(MenuEventSink::singleton());
     m_installed = true;
     F4DRP_LOG_INFO("MenuTracker installed");
 }
@@ -92,7 +92,7 @@ void MenuTracker::uninstall()
         return;
     }
     if (auto* ui = RE::UI::GetSingleton()) {
-        ui->RemoveEventSink(MenuEventSink::singleton());
+        ui->UnregisterSink<RE::MenuOpenCloseEvent>(MenuEventSink::singleton());
     }
     m_installed = false;
 }

@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "description": "Discord Rich Presence for Fallout 4 (cross-gen single DLL for OG 1.10.163 and NG 1.10.984/1.11.169/1.11.191).",
   "license": "MIT",
+  "builtin-baseline": "38d91be5efb2f21fbef4a3c53295002823747431",
   "dependencies": [
     "spdlog",
     "nlohmann-json",
@@ -13,5 +14,8 @@
     "boost-stl-interfaces",
     "rsm-mmio",
     "rapidcsv"
+  ],
+  "overrides": [
+    { "name": "fmt", "version": "10.2.1" }
   ]
 }

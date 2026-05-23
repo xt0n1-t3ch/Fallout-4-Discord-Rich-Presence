@@ -10,7 +10,7 @@ inline constexpr std::wstring_view kPipePathFormat = L"\\\\?\\pipe\\discord-ipc-
 inline constexpr int kPipeIndexMin = 0;
 inline constexpr int kPipeIndexMax = 9;
 
-inline constexpr std::string_view kDefaultAppId = "1380000000000000000";
+inline constexpr std::string_view kDefaultAppId = "1507704875939790889";
 inline constexpr std::string_view kDefaultLargeImage = "fallout4";
 inline constexpr std::string_view kDefaultSmallImage = "";
 inline constexpr std::string_view kDefaultLargeImageTxt = "Fallout 4";
@@ -33,10 +33,10 @@ inline constexpr int kHeartbeatTimeoutSec = 5;
 
 inline constexpr std::array<int, 7> kReconnectBackoffSec = {5, 10, 20, 40, 60, 60, 60};
 
-inline constexpr std::string_view kIniFileName = "Discord_Presence_F4SE_NG.ini";
-inline constexpr std::string_view kTranslationFileName = "Discord_Presence_F4SE_NG_Translation.ini";
-inline constexpr std::string_view kLogFileName = "Discord_Presence_F4SE_NG.log";
-inline constexpr std::string_view kPluginName = "Discord_Presence_F4SE_NG";
+inline constexpr std::string_view kIniFileName = "discord_rich_presence.ini";
+inline constexpr std::string_view kTranslationFileName = "discord_rich_presence_translation.ini";
+inline constexpr std::string_view kLogFileName = "discord_rich_presence.log";
+inline constexpr std::string_view kPluginName = "Discord Rich Presence";
 inline constexpr std::string_view kPluginAuthor = "xt0n1";
 inline constexpr std::string_view kConflictPluginDll = "Discord_Presence_F4SE_Remake.dll";
 inline constexpr std::uint32_t kPluginVersion = 0x0001'0000U;

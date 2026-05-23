@@ -65,7 +65,7 @@ add_library(${PROJECT_NAME} SHARED
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_NAME Discord_Presence_F4SE_NG
+    OUTPUT_NAME discord_rich_presence
     PREFIX ""
     SUFFIX ".dll"
 )
@@ -122,7 +122,7 @@ endif()
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION "Data/F4SE/Plugins")
 install(FILES
-    dist/Discord_Presence_F4SE_NG.ini
-    dist/Discord_Presence_F4SE_NG_Translation.ini
+    dist/discord_rich_presence.ini
+    dist/discord_rich_presence_translation.ini
     DESTINATION "Data/F4SE/Plugins"
     OPTIONAL)

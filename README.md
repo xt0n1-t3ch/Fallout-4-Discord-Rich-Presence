@@ -40,20 +40,20 @@ Clean rewrite of [TommInfinite's REMAKE (Nexus 77771)](https://www.nexusmods.com
 Install via the FOMOD or drop `dist\` contents into your Fallout 4 game data:
 
 ```
-<Fallout 4>\Data\F4SE\Plugins\Discord_Presence_F4SE_NG.dll
-<Fallout 4>\Data\F4SE\Plugins\Discord_Presence_F4SE_NG.ini
-<Fallout 4>\Data\F4SE\Plugins\Discord_Presence_F4SE_NG_Translation.ini
+<Fallout 4>\Data\F4SE\Plugins\discord_rich_presence.dll
+<Fallout 4>\Data\F4SE\Plugins\discord_rich_presence.ini
+<Fallout 4>\Data\F4SE\Plugins\discord_rich_presence_translation.ini
 ```
 
 ### Manual
 
-Unzip the release into your `Fallout 4` folder so the DLL ends up at `Data\F4SE\Plugins\Discord_Presence_F4SE_NG.dll`. On first launch the plugin regenerates the INI files at the same path.
+Unzip the release into your `Fallout 4` folder so the DLL ends up at `Data\F4SE\Plugins\discord_rich_presence.dll`. On first launch the plugin regenerates the INI files at the same path.
 
 ## Conflict with the original Nexus 77771 mod
 
 If you previously installed `Discord_Presence_F4SE_Remake.dll`, **delete it** from `Data\F4SE\Plugins\`. Our plugin detects the conflicting module at load time and refuses to send Discord frames while both DLLs are loaded; a warning is written to the log.
 
-## INI keys (`Discord_Presence_F4SE_NG.ini`)
+## INI keys (`discord_rich_presence.ini`)
 
 ### `[Main]`
 
@@ -82,7 +82,7 @@ If you previously installed `Discord_Presence_F4SE_Remake.dll`, **delete it** fr
 | `sCustomDetails` | Override the entire details line |
 | `sCustomLargeImageText` | Override Discord large-image hover text |
 
-## Translation (`Discord_Presence_F4SE_NG_Translation.ini`)
+## Translation (`discord_rich_presence_translation.ini`)
 
 Every visible string is overrideable via the `[Strings]` section. Empty value = use built-in English default. Translations from Nexus 77771 are NOT compatible (key names changed).
 
@@ -95,7 +95,7 @@ s_T_HP = SALUD
 
 ## Logging
 
-The log lives at `Documents\My Games\Fallout4\F4SE\Discord_Presence_F4SE_NG.log`. Enable `bDebugMode=1` for verbose output.
+The log lives at `Documents\My Games\Fallout4\F4SE\discord_rich_presence.log`. Enable `bDebugMode=1` for verbose output.
 
 ## Building from source
 
