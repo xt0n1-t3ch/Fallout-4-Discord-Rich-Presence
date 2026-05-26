@@ -10,6 +10,8 @@ add_executable(f4drp_tests
     unit/test_mapper.cpp
     unit/test_menucatalog.cpp
     unit/test_dispatch.cpp
+    unit/test_template.cpp
+    unit/test_composer.cpp
     contract/test_frames.cpp
 )
 
@@ -27,6 +29,8 @@ target_sources(f4drp_tests PRIVATE
     ../src/Util/PlayTime.cpp
     ../src/Util/Logger.cpp
     ../src/Mapper/Mapper.cpp
+    ../src/Presence/Template.cpp
+    ../src/Presence/Composer.cpp
 )
 
 target_compile_definitions(f4drp_tests PRIVATE
