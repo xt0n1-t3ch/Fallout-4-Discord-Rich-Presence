@@ -10,8 +10,8 @@ inline constexpr std::wstring_view kPipePathFormat = L"\\\\?\\pipe\\discord-ipc-
 inline constexpr int kPipeIndexMin = 0;
 inline constexpr int kPipeIndexMax = 9;
 
-inline constexpr std::string_view kDefaultAppId = "1507704875939790889";
-inline constexpr std::string_view kDefaultLargeImage = "fallout4";
+inline constexpr std::string_view kDefaultAppId = "903933837514518548";
+inline constexpr std::string_view kDefaultLargeImage = "fo4-big";
 inline constexpr std::string_view kDefaultSmallImage = "";
 inline constexpr std::string_view kDefaultLargeImageTxt = "Fallout 4";
 
@@ -26,7 +26,7 @@ inline constexpr std::size_t kPayloadMaxBytes = 16 * 1024;
 
 inline constexpr int kRateLimitMaxPerWindow = 5;
 inline constexpr int kRateLimitWindowSec = 20;
-inline constexpr int kUpdateIntervalFloorSec = 5;
+inline constexpr int kUpdateIntervalFloorSec = 1;
 inline constexpr int kUpdateIntervalDefaultSec = 3;
 inline constexpr int kHeartbeatIdleSec = 30;
 inline constexpr int kHeartbeatTimeoutSec = 5;
@@ -39,9 +39,9 @@ inline constexpr std::string_view kLogFileName = "discord_rich_presence.log";
 inline constexpr std::string_view kPluginName = "Discord Rich Presence";
 inline constexpr std::string_view kPluginAuthor = "xt0n1";
 inline constexpr std::string_view kConflictPluginDll = "Discord_Presence_F4SE_Remake.dll";
-inline constexpr std::uint32_t kPluginVersion = 0x0001'0000U;
+inline constexpr std::uint32_t kPluginVersion = 0x0003'0000U;
 
-inline constexpr std::int64_t kMaxCapsToShowDefault = 99'999'999;
+inline constexpr std::int64_t kMaxCapsToShowDefault = 9'999LL;
 inline constexpr std::int64_t kMaxCapsAbsolute = 99'999'999LL;
 inline constexpr std::int64_t kMinCapsAbsolute = 0LL;
 
@@ -93,6 +93,7 @@ namespace StringKey {
     inline constexpr std::string_view kVatsMenu = "s_T_VATSMenu";
     inline constexpr std::string_view kCookingMenu = "s_T_CookingMenu";
     inline constexpr std::string_view kWorkshopMenu = "s_T_WorkshopMenu";
+    inline constexpr std::string_view kInMenu = "s_T_InMenu";
     inline constexpr std::string_view kFighting = "s_T_Fighting";
     inline constexpr std::string_view kExploring = "s_T_Exploring";
     inline constexpr std::string_view kIn = "s_T_In";
@@ -120,14 +121,15 @@ namespace Defaults {
     inline constexpr std::string_view kVatsMenu = "In VATS";
     inline constexpr std::string_view kCookingMenu = "Cooking";
     inline constexpr std::string_view kWorkshopMenu = "In Workshop mode";
+    inline constexpr std::string_view kInMenu = "In a menu";
     inline constexpr std::string_view kFighting = "Fighting";
     inline constexpr std::string_view kExploring = "Exploring";
-    inline constexpr std::string_view kIn = "in";
-    inline constexpr std::string_view kWith = "with";
+    inline constexpr std::string_view kIn = " in ";
+    inline constexpr std::string_view kWith = " with ";
     inline constexpr std::string_view kLvl = "LVL";
     inline constexpr std::string_view kHp = "HP";
     inline constexpr std::string_view kCaps = "caps";
-    inline constexpr std::string_view kEventHackedTerminal = "Hacked";
-    inline constexpr std::string_view kEventBuiltObject = "Built";
+    inline constexpr std::string_view kEventHackedTerminal = "Hacked ";
+    inline constexpr std::string_view kEventBuiltObject = "Built ";
 } // namespace Defaults
 } // namespace F4DRP::Constants

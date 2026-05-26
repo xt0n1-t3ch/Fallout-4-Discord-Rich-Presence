@@ -53,6 +53,11 @@ add_library(${PROJECT_NAME} SHARED
     src/Discord/RateLimiter.cpp
     src/Discord/Client.cpp
     src/Game/MenuTracker.cpp
+    src/Game/PlayerAccess.cpp
+    src/Game/MainThread.cpp
+    src/Game/MainUpdateHook.cpp
+    src/Game/Diagnostics.cpp
+    src/Game/UiResolver.cpp
     src/Game/PlayerSnapshot.cpp
     src/Game/Location.cpp
     src/Game/CombatTracker.cpp

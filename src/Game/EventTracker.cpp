@@ -11,6 +11,18 @@ namespace {
     EventTracker::clock::time_point g_lastWorkshopFireAt{};
     constexpr std::chrono::milliseconds kWorkshopMinGap{1500};
 
+    std::atomic_uint64_t g_terminalSinkFires{0};
+    std::atomic_uint64_t g_workshopSinkFires{0};
+
+    std::string referenceName(RE::TESObjectREFR* ref)
+    {
+        if (ref == nullptr) {
+            return {};
+        }
+        const char* name = ref->GetDisplayFullName();
+        return name == nullptr ? std::string{} : std::string{name};
+    }
+
     class TerminalSink final : public RE::BSTEventSink<RE::TerminalHacked::Event>
     {
     public:
@@ -20,12 +32,16 @@ namespace {
             return &s;
         }
 
-        RE::BSEventNotifyControl ProcessEvent(const RE::TerminalHacked::Event&,
+        RE::BSEventNotifyControl ProcessEvent(const RE::TerminalHacked::Event& evn,
                                               RE::BSTEventSource<RE::TerminalHacked::Event>*) override
         {
+            const auto fires = g_terminalSinkFires.fetch_add(1, std::memory_order_relaxed) + 1;
             const auto now = std::chrono::steady_clock::now();
+            auto terminalPtr = evn.terminal.get();
+            std::string payload = referenceName(terminalPtr.get());
+            F4DRP_LOG_INFO("TerminalHacked sink fired (count={}, payload='{}')", fires, payload);
             EventTracker::instance().fireEvent(
-                EventKind::HackedTerminal, now, Constants::kEventStatusDurationDefault, false);
+                EventKind::HackedTerminal, now, Constants::kEventStatusDurationDefault, true, std::move(payload));
             return RE::BSEventNotifyControl::kContinue;
         }
     };
@@ -39,7 +55,7 @@ namespace {
             return &s;
         }
 
-        RE::BSEventNotifyControl ProcessEvent(const RE::Workshop::ItemPlacedEvent&,
+        RE::BSEventNotifyControl ProcessEvent(const RE::Workshop::ItemPlacedEvent& evn,
                                               RE::BSTEventSource<RE::Workshop::ItemPlacedEvent>*) override
         {
             const auto now = std::chrono::steady_clock::now();
@@ -47,8 +63,11 @@ namespace {
                 return RE::BSEventNotifyControl::kContinue;
             }
             g_lastWorkshopFireAt = now;
+            const auto fires = g_workshopSinkFires.fetch_add(1, std::memory_order_relaxed) + 1;
+            std::string payload = referenceName(evn.placedItem.get());
+            F4DRP_LOG_INFO("Workshop::ItemPlaced sink fired (count={}, payload='{}')", fires, payload);
             EventTracker::instance().fireEvent(
-                EventKind::BuiltWorkshopObject, now, Constants::kEventStatusDurationDefault, false);
+                EventKind::BuiltWorkshopObject, now, Constants::kEventStatusDurationDefault, true, std::move(payload));
             return RE::BSEventNotifyControl::kContinue;
         }
     };
@@ -65,7 +84,8 @@ EventTracker& EventTracker::instance()
 void EventTracker::fireEvent(EventKind kind,
                              std::chrono::steady_clock::time_point now,
                              float durationSec,
-                             bool allowOverride)
+                             bool allowOverride,
+                             std::string payload)
 {
     std::scoped_lock lock{m_mtx};
     const bool active = m_kind.load() != EventKind::None && now < m_expiresAt;
@@ -73,12 +93,19 @@ void EventTracker::fireEvent(EventKind kind,
         return;
     }
     m_kind.store(kind);
+    m_payload = std::move(payload);
     m_expiresAt = now + std::chrono::milliseconds{static_cast<int>(durationSec * 1000.0F)};
 }
 
 EventKind EventTracker::activeEvent() const noexcept
 {
     return m_kind.load(std::memory_order_acquire);
+}
+
+std::string EventTracker::activePayload() const
+{
+    std::scoped_lock lock{m_mtx};
+    return m_payload;
 }
 
 std::chrono::steady_clock::time_point EventTracker::expiresAt() const noexcept
@@ -96,6 +123,7 @@ void EventTracker::clearIfExpired(std::chrono::steady_clock::time_point now)
     std::scoped_lock lock{m_mtx};
     if (m_kind.load() != EventKind::None && now >= m_expiresAt) {
         m_kind.store(EventKind::None);
+        m_payload.clear();
     }
 }
 
@@ -103,12 +131,24 @@ void installEventTrackerSinks()
 {
     if (g_installed)
         return;
+    bool terminalOk = false;
+    bool workshopOk = false;
     if (auto* src = RE::TerminalHacked::GetEventSource()) {
         src->RegisterSink(TerminalSink::singleton());
+        terminalOk = true;
     }
-    RE::Workshop::RegisterForItemPlaced(WorkshopSink::singleton());
+    else {
+        F4DRP_LOG_WARN("TerminalHacked event source unavailable; skipping sink");
+    }
+    try {
+        RE::Workshop::RegisterForItemPlaced(WorkshopSink::singleton());
+        workshopOk = true;
+    }
+    catch (...) {
+        F4DRP_LOG_WARN("Workshop::RegisterForItemPlaced threw; skipping workshop sink");
+    }
     g_installed = true;
-    F4DRP_LOG_INFO("EventTracker sinks installed (TerminalHacked + Workshop::ItemPlacedEvent)");
+    F4DRP_LOG_INFO("EventTracker sinks installed (terminal={}, workshop={})", terminalOk, workshopOk);
 }
 
 void uninstallEventTrackerSinks()

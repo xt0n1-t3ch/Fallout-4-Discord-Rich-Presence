@@ -1,6 +1,8 @@
 #include <chrono>
+#include <cstdlib>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <thread>
 
 #include <Windows.h>
@@ -13,8 +15,26 @@
 
 using namespace std::chrono_literals;
 
+namespace {
+constexpr std::string_view kNetworkGateEnv = "F4DRP_LIVE_DISCORD_NETWORK";
+
+bool networkGateEnabled()
+{
+    const char* v = std::getenv(std::string{kNetworkGateEnv}.c_str());
+    return v != nullptr && v[0] != '\0' && v[0] != '0';
+}
+} // namespace
+
+#define REQUIRE_LIVE_NETWORK()                                                                                         \
+    do {                                                                                                               \
+        if (!networkGateEnabled()) {                                                                                   \
+            SKIP("F4DRP_LIVE_DISCORD_NETWORK not set; skipping live Discord network round-trip.");                     \
+        }                                                                                                              \
+    } while (false)
+
 TEST_CASE("Discord pipe opens against running desktop client", "[integration][live]")
 {
+    REQUIRE_LIVE_NETWORK();
     F4DRP::Discord::Pipe pipe;
     const bool opened = pipe.open();
     REQUIRE(opened);
@@ -23,6 +43,7 @@ TEST_CASE("Discord pipe opens against running desktop client", "[integration][li
 
 TEST_CASE("Discord pipe round-trip: HANDSHAKE -> any reply within 5s", "[integration][live]")
 {
+    REQUIRE_LIVE_NETWORK();
     F4DRP::Discord::Pipe pipe;
     REQUIRE(pipe.open());
 
@@ -47,6 +68,7 @@ TEST_CASE("Discord pipe round-trip: HANDSHAKE -> any reply within 5s", "[integra
 
 TEST_CASE("Discord Client connects and runs without crash for 2s", "[integration][live]")
 {
+    REQUIRE_LIVE_NETWORK();
     F4DRP::Discord::Client client;
     client.start("12345678901234567");
     std::this_thread::sleep_for(2s);
@@ -56,6 +78,7 @@ TEST_CASE("Discord Client connects and runs without crash for 2s", "[integration
 
 TEST_CASE("Discord E2E: real AppID handshake + SetActivity is accepted", "[integration][live][e2e]")
 {
+    REQUIRE_LIVE_NETWORK();
     F4DRP::Discord::Pipe pipe;
     REQUIRE(pipe.open());
 

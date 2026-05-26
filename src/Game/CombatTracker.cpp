@@ -3,6 +3,7 @@
 #include <RE/Fallout.h>
 
 #include "Constants.h"
+#include "Game/PlayerAccess.h"
 #include "Util/Logger.h"
 
 namespace F4DRP::Game {
@@ -30,7 +31,7 @@ void CombatTracker::onCombatChange(std::uint32_t, std::string, bool) {}
 std::vector<std::string> CombatTracker::snapshotTargetNames()
 {
     std::vector<std::string> out;
-    auto* player = RE::PlayerCharacter::GetSingleton();
+    auto* player = getPlayerSafe();
     if (player == nullptr) {
         return out;
     }
@@ -42,7 +43,9 @@ std::vector<std::string> CombatTracker::snapshotTargetNames()
     if (target == nullptr) {
         return out;
     }
-    if (const char* n = target->GetDisplayFullName(); n != nullptr && n[0] != '\0') {
+    auto* base = target->GetObjectReference();
+    auto* npc = base != nullptr ? base->As<RE::TESNPC>() : nullptr;
+    if (const char* n = npc != nullptr ? npc->GetFullName() : nullptr; n != nullptr && n[0] != '\0') {
         out.emplace_back(n);
     }
     return out;
@@ -50,7 +53,7 @@ std::vector<std::string> CombatTracker::snapshotTargetNames()
 
 bool CombatTracker::anyHostile()
 {
-    auto* player = RE::PlayerCharacter::GetSingleton();
+    auto* player = getPlayerSafe();
     return player != nullptr && player->IsInCombat();
 }
 } // namespace F4DRP::Game

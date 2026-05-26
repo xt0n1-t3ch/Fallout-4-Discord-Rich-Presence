@@ -1,27 +1,24 @@
 #include "Game/PlayerSnapshot.h"
 
 #include <algorithm>
+#include <cstdint>
 
 #include <RE/Fallout.h>
+#include <excpt.h>
 
+#include "Game/PlayerAccess.h"
 #include "Util/Logger.h"
 
 namespace F4DRP::Game {
 namespace {
-    constexpr std::uint32_t kCapsFormID = 0x0000000F;
-
-    std::int64_t countCaps(RE::PlayerCharacter* player)
+    const char* baseNameNoAlloc(RE::PlayerCharacter* player)
     {
-        if (player == nullptr)
-            return 0;
-        auto* caps = RE::TESForm::GetFormByID(kCapsFormID);
-        if (caps == nullptr)
-            return 0;
-        std::uint32_t count = 0;
-        if (player->GetItemCount(count, caps, false)) {
-            return static_cast<std::int64_t>(count);
+        auto* base = player->GetObjectReference();
+        if (base == nullptr) {
+            return nullptr;
         }
-        return 0;
+        auto* npc = base->As<RE::TESNPC>();
+        return npc != nullptr ? npc->GetFullName() : nullptr;
     }
 
     float healthPct(RE::PlayerCharacter* player)
@@ -33,23 +30,41 @@ namespace {
             return 0.0F;
         const float hpMax = player->GetPermanentActorValue(*avs->health);
         const float hpNow = player->GetActorValue(*avs->health);
-        return hpMax > 0.0F ? std::clamp(hpNow / hpMax, 0.0F, 1.0F) : 0.0F;
+        if (hpMax <= 0.0F)
+            return 0.0F;
+        if (hpMax - hpNow < 0.50F)
+            return 1.0F;
+        return std::clamp(hpNow / hpMax, 0.0F, 1.0F);
     }
 } // namespace
 
 PlayerSnapshotResult capturePlayerSnapshot()
 {
     PlayerSnapshotResult r;
-    auto* player = RE::PlayerCharacter::GetSingleton();
+    F4DRP_LOG_DBG("PS p1: enter capturePlayerSnapshot");
+
+    auto* player = getPlayerSafe();
+    F4DRP_LOG_DBG("PS p2: getPlayerSafe -> {}", static_cast<const void*>(player));
+
     if (player == nullptr) {
+        F4DRP_LOG_DBG("PS p3: getPlayerSafe returned null; skip capture");
         return r;
     }
-    if (const char* name = player->GetDisplayFullName(); name != nullptr) {
+
+    F4DRP_LOG_DBG("PS p4: about to read parentCell");
+    r.inMainMenu = player->parentCell == nullptr;
+    F4DRP_LOG_DBG("PS p5: parentCell read OK, inMainMenu={}", r.inMainMenu);
+    r.inChargen = player->byCharGenFlag != 0;
+    F4DRP_LOG_DBG("PS p6: byCharGenFlag read OK, inChargen={}", r.inChargen);
+    if (const char* name = baseNameNoAlloc(player); name != nullptr) {
         r.name = name;
     }
+    F4DRP_LOG_DBG("PS p7: base name (no scrap alloc) OK, name='{}'", r.name);
     r.level = player->GetLevel();
+    F4DRP_LOG_DBG("PS p8: GetLevel OK, level={}", r.level);
     r.healthPct = healthPct(player);
-    r.caps = countCaps(player);
+    F4DRP_LOG_DBG("PS p9: healthPct OK, hp={:.2f}", r.healthPct);
+    r.caps = 0;
     r.valid = true;
     return r;
 }

@@ -10,6 +10,8 @@ struct PlayerSnapshotResult
     float healthPct = 0.0F;
     std::int64_t caps = 0;
     bool valid = false;
+    bool inMainMenu = false;
+    bool inChargen = false;
 };
 
 PlayerSnapshotResult capturePlayerSnapshot();

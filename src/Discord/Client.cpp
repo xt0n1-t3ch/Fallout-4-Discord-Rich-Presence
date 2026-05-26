@@ -152,7 +152,16 @@ void Client::tryFlushDesired()
     if (m_pipe.write(bytes)) {
         m_lastSentHash = snapshot.hash;
         m_lastTraffic = now;
-        F4DRP_LOG_DBG("discord set_activity sent hash={}", snapshot.hash);
+        if (!snapshot.details.empty() || !snapshot.state.empty()) {
+            F4DRP_LOG_DBG("discord set_activity sent hash={} details='{}' state='{}'",
+                          snapshot.hash,
+                          snapshot.details,
+                          snapshot.state);
+        }
+        else {
+            F4DRP_LOG_DBG("discord set_activity sent hash={} (empty details+state — App default will show)",
+                          snapshot.hash);
+        }
     }
     else {
         F4DRP_LOG_WARN("discord set_activity write failed");

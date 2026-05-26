@@ -47,6 +47,11 @@ struct GameState
     std::uint64_t playTimeSeconds = 0;
     std::int64_t sessionStartUnix = 0;
     bool inCombat = false;
-    bool newGameStarted = false;
+    bool inMainMenu = false;
+    bool inChargen = false;
+    bool gameLoading = false;
+    bool menuShowsLocation = false;
+    bool menuModeActive = false;
+    std::string eventPayload;
 };
 } // namespace F4DRP::Game

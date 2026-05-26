@@ -8,6 +8,8 @@ add_executable(f4drp_tests
     unit/test_settings.cpp
     unit/test_translation.cpp
     unit/test_mapper.cpp
+    unit/test_menucatalog.cpp
+    unit/test_dispatch.cpp
     contract/test_frames.cpp
 )
 
@@ -45,7 +47,7 @@ target_compile_options(f4drp_tests PRIVATE /W4 /permissive- /Zc:__cplusplus /utf
 include(Catch)
 catch_discover_tests(f4drp_tests)
 
-option(F4DRP_LIVE_DISCORD "Enable live Discord integration test" OFF)
+option(F4DRP_LIVE_DISCORD "Build live Discord integration target (network gated at runtime by F4DRP_LIVE_DISCORD_NETWORK env var)" ON)
 if(F4DRP_LIVE_DISCORD)
     add_executable(f4drp_integration
         integration/test_pipe.cpp

@@ -20,7 +20,7 @@ void Logger::install(const std::filesystem::path& logPath, bool debugMode)
     s_logger = std::make_shared<spdlog::logger>(std::string{Constants::kPluginName}, sinks);
     s_logger->set_pattern("[%Y-%m-%d %T.%e] [%^%l%$] %v");
     s_logger->set_level(debugMode ? spdlog::level::debug : spdlog::level::info);
-    s_logger->flush_on(spdlog::level::warn);
+    s_logger->flush_on(spdlog::level::trace);
     spdlog::register_logger(s_logger);
 }
 

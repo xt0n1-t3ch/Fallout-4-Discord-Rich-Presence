@@ -40,8 +40,11 @@ TEST_CASE("RateLimiter floors updateInterval to kUpdateIntervalFloorSec", "[rate
 {
     F4DRP::Discord::RateLimiter rl;
     const auto t0 = F4DRP::Discord::RateLimiter::clock::now();
-    REQUIRE(rl.admit(0x01, t0, 1).send);
-    auto d = rl.admit(0x01, t0 + 2s, 1);
-    REQUIRE_FALSE(d.send);
-    REQUIRE(rl.admit(0x02, t0 + std::chrono::seconds{F4DRP::Constants::kUpdateIntervalFloorSec + 1}, 1).send);
+    constexpr int kInputBelowFloor = 0;
+    const int floor = F4DRP::Constants::kUpdateIntervalFloorSec;
+    REQUIRE(rl.admit(0x01, t0, kInputBelowFloor).send);
+    auto inside = rl.admit(0x01, t0 + std::chrono::milliseconds{floor * 1000 / 2}, kInputBelowFloor);
+    REQUIRE_FALSE(inside.send);
+    auto past = rl.admit(0x01, t0 + std::chrono::milliseconds{floor * 1000 + 500}, kInputBelowFloor);
+    REQUIRE(past.send);
 }
