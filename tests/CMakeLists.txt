@@ -12,6 +12,7 @@ add_executable(f4drp_tests
     unit/test_dispatch.cpp
     unit/test_template.cpp
     unit/test_composer.cpp
+    unit/test_presenceconfig.cpp
     contract/test_frames.cpp
 )
 
@@ -31,6 +32,7 @@ target_sources(f4drp_tests PRIVATE
     ../src/Mapper/Mapper.cpp
     ../src/Presence/Template.cpp
     ../src/Presence/Composer.cpp
+    ../src/Presence/PresenceConfig.cpp
 )
 
 target_compile_definitions(f4drp_tests PRIVATE

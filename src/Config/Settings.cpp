@@ -45,6 +45,7 @@ bool writeDefault(const std::filesystem::path& iniPath)
 {
     CSimpleIniA ini;
     ini.SetUnicode(true);
+    ini.SetQuotes(true);
 
     const auto main = std::string{Constants::IniSection::kMain};
     ini.SetBoolValue(main.c_str(), Constants::IniKey::kSimplifiedStatus.data(), true);
@@ -69,6 +70,35 @@ bool writeDefault(const std::filesystem::path& iniPath)
     ini.SetValue(custom.c_str(), Constants::IniKey::kCustomState.data(), "");
     ini.SetValue(custom.c_str(), Constants::IniKey::kCustomDetails.data(), "");
     ini.SetValue(custom.c_str(), Constants::IniKey::kCustomLargeImageText.data(), "");
+
+    const auto fmt = std::string{Constants::IniSection::kFormat};
+    ini.SetValue(fmt.c_str(), Constants::IniKey::kFieldName.data(), Constants::PresenceDefaults::kFieldName.data());
+    ini.SetValue(fmt.c_str(), Constants::IniKey::kFieldLevel.data(), Constants::PresenceDefaults::kFieldLevel.data());
+    ini.SetValue(fmt.c_str(), Constants::IniKey::kFieldHp.data(), Constants::PresenceDefaults::kFieldHp.data());
+    ini.SetValue(fmt.c_str(), Constants::IniKey::kFieldCaps.data(), Constants::PresenceDefaults::kFieldCaps.data());
+    ini.SetValue(
+        fmt.c_str(), Constants::IniKey::kFieldSeparator.data(), Constants::PresenceDefaults::kFieldSeparator.data());
+    ini.SetValue(fmt.c_str(),
+                 Constants::IniKey::kLocationSeparatorSimplified.data(),
+                 Constants::PresenceDefaults::kLocationSeparatorSimplified.data());
+    ini.SetValue(fmt.c_str(),
+                 Constants::IniKey::kLocationSeparatorVerbose.data(),
+                 Constants::PresenceDefaults::kLocationSeparatorVerbose.data());
+
+    const auto img = std::string{Constants::IniSection::kImages};
+    ini.SetValue(img.c_str(), Constants::IniKey::kLargeImage.data(), Constants::PresenceDefaults::kLargeImage.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kLargeText.data(), Constants::PresenceDefaults::kLargeText.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconExploring.data(), "");
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconCombat.data(), "");
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconMenu.data(), "");
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconMainMenu.data(), "");
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconLoading.data(), "");
+
+    const auto buttons = std::string{Constants::IniSection::kButtons};
+    ini.SetValue(buttons.c_str(), Constants::IniKey::kButton1Label.data(), "");
+    ini.SetValue(buttons.c_str(), Constants::IniKey::kButton1Url.data(), "");
+    ini.SetValue(buttons.c_str(), Constants::IniKey::kButton2Label.data(), "");
+    ini.SetValue(buttons.c_str(), Constants::IniKey::kButton2Url.data(), "");
 
     std::error_code ec;
     std::filesystem::create_directories(iniPath.parent_path(), ec);

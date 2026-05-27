@@ -55,6 +55,9 @@ namespace IniSection {
     inline constexpr std::string_view kMain = "Main";
     inline constexpr std::string_view kCustom = "Custom";
     inline constexpr std::string_view kStrings = "Strings";
+    inline constexpr std::string_view kFormat = "Format";
+    inline constexpr std::string_view kImages = "Images";
+    inline constexpr std::string_view kButtons = "Buttons";
 } // namespace IniSection
 
 namespace IniKey {
@@ -75,7 +78,40 @@ namespace IniKey {
     inline constexpr std::string_view kCustomState = "sCustomState";
     inline constexpr std::string_view kCustomDetails = "sCustomDetails";
     inline constexpr std::string_view kCustomLargeImageText = "sCustomLargeImageText";
+
+    inline constexpr std::string_view kFieldName = "sFieldName";
+    inline constexpr std::string_view kFieldLevel = "sFieldLevel";
+    inline constexpr std::string_view kFieldHp = "sFieldHP";
+    inline constexpr std::string_view kFieldCaps = "sFieldCaps";
+    inline constexpr std::string_view kFieldSeparator = "sFieldSeparator";
+    inline constexpr std::string_view kLocationSeparatorSimplified = "sLocationSeparator";
+    inline constexpr std::string_view kLocationSeparatorVerbose = "sLocationConnector";
+
+    inline constexpr std::string_view kLargeImage = "sLargeImage";
+    inline constexpr std::string_view kLargeText = "sLargeText";
+    inline constexpr std::string_view kIconExploring = "sIconExploring";
+    inline constexpr std::string_view kIconCombat = "sIconCombat";
+    inline constexpr std::string_view kIconMenu = "sIconMenu";
+    inline constexpr std::string_view kIconMainMenu = "sIconMainMenu";
+    inline constexpr std::string_view kIconLoading = "sIconLoading";
+
+    inline constexpr std::string_view kButton1Label = "sButton1Label";
+    inline constexpr std::string_view kButton1Url = "sButton1Url";
+    inline constexpr std::string_view kButton2Label = "sButton2Label";
+    inline constexpr std::string_view kButton2Url = "sButton2Url";
 } // namespace IniKey
+
+namespace PresenceDefaults {
+    inline constexpr std::string_view kFieldName = "{name}";
+    inline constexpr std::string_view kFieldLevel = "LVL {level}";
+    inline constexpr std::string_view kFieldHp = "{hp}% HP";
+    inline constexpr std::string_view kFieldCaps = "{caps} caps";
+    inline constexpr std::string_view kFieldSeparator = " \xe2\x80\xa2 ";
+    inline constexpr std::string_view kLocationSeparatorSimplified = " \xe2\x80\xa2 ";
+    inline constexpr std::string_view kLocationSeparatorVerbose = " in ";
+    inline constexpr std::string_view kLargeImage = "fo4-big";
+    inline constexpr std::string_view kLargeText = "Fallout 4";
+} // namespace PresenceDefaults
 
 namespace StringKey {
     inline constexpr std::string_view kLaunchingGame = "s_T_LaunchingGame";
