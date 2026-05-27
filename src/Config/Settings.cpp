@@ -93,6 +93,7 @@ bool writeDefault(const std::filesystem::path& iniPath)
     ini.SetValue(img.c_str(), Constants::IniKey::kIconCombat.data(), Constants::PresenceDefaults::kIconCombat.data());
     ini.SetValue(img.c_str(), Constants::IniKey::kIconMenu.data(), Constants::PresenceDefaults::kIconMenu.data());
     ini.SetValue(img.c_str(), Constants::IniKey::kIconPipboy.data(), Constants::PresenceDefaults::kIconPipboy.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconVats.data(), Constants::PresenceDefaults::kIconVats.data());
     ini.SetValue(
         img.c_str(), Constants::IniKey::kIconMainMenu.data(), Constants::PresenceDefaults::kIconMainMenu.data());
     ini.SetValue(img.c_str(), Constants::IniKey::kIconLoading.data(), Constants::PresenceDefaults::kIconLoading.data());

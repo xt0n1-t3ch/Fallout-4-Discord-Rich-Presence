@@ -31,6 +31,7 @@ struct PresenceConfig
     std::string iconCombat{Constants::PresenceDefaults::kIconCombat};
     std::string iconMenu{Constants::PresenceDefaults::kIconMenu};
     std::string iconPipboy{Constants::PresenceDefaults::kIconPipboy};
+    std::string iconVats{Constants::PresenceDefaults::kIconVats};
     std::string iconMainMenu{Constants::PresenceDefaults::kIconMainMenu};
     std::string iconLoading{Constants::PresenceDefaults::kIconLoading};
 

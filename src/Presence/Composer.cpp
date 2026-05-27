@@ -118,6 +118,9 @@ namespace {
         if (g.lastEvent != Game::EventKind::None && now < g.eventExpiresAt && s.showEventStatuses) {
             return {withLocation(eventState(g, t), g, s, cfg), &cfg.iconMenu};
         }
+        if (g.menu == Game::MenuKind::Vats) {
+            return {std::string{menuLabel(g.menu, t)}, !cfg.iconVats.empty() ? &cfg.iconVats : &cfg.iconMenu};
+        }
         if (g.inCombat && !g.combatTargetNames.empty()) {
             std::string base =
                 std::string{t.get(StringKey::kFighting, Defaults::kFighting)} + " " + g.combatTargetNames.front();

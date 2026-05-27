@@ -95,6 +95,7 @@ namespace IniKey {
     inline constexpr std::string_view kIconCombat = "sIconCombat";
     inline constexpr std::string_view kIconMenu = "sIconMenu";
     inline constexpr std::string_view kIconPipboy = "sIconPipboy";
+    inline constexpr std::string_view kIconVats = "sIconVats";
     inline constexpr std::string_view kIconMainMenu = "sIconMainMenu";
     inline constexpr std::string_view kIconLoading = "sIconLoading";
 
@@ -118,6 +119,7 @@ namespace PresenceDefaults {
     inline constexpr std::string_view kIconCombat = "icon_combat";
     inline constexpr std::string_view kIconMenu = "icon_menu";
     inline constexpr std::string_view kIconPipboy = "icon_pipboy";
+    inline constexpr std::string_view kIconVats = "icon_vats";
     inline constexpr std::string_view kIconMainMenu = "icon_mainmenu";
     inline constexpr std::string_view kIconLoading = "icon_loading";
 } // namespace PresenceDefaults

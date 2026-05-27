@@ -23,6 +23,7 @@ TEST_CASE("PresenceConfig: empty INI yields Iconic defaults", "[config]")
     REQUIRE(c.iconCombat == "icon_combat");
     REQUIRE(c.iconMenu == "icon_menu");
     REQUIRE(c.iconPipboy == "icon_pipboy");
+    REQUIRE(c.iconVats == "icon_vats");
     REQUIRE(c.iconMainMenu == "icon_mainmenu");
     REQUIRE(c.iconLoading == "icon_loading");
     REQUIRE(c.buttons.empty());

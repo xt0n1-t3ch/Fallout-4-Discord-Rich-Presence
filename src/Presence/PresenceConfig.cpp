@@ -56,6 +56,7 @@ PresenceConfig parsePresenceConfig(const std::string& iniContents)
     c.iconCombat = value(ini, img, IniKey::kIconCombat, PresenceDefaults::kIconCombat);
     c.iconMenu = value(ini, img, IniKey::kIconMenu, PresenceDefaults::kIconMenu);
     c.iconPipboy = value(ini, img, IniKey::kIconPipboy, PresenceDefaults::kIconPipboy);
+    c.iconVats = value(ini, img, IniKey::kIconVats, PresenceDefaults::kIconVats);
     c.iconMainMenu = value(ini, img, IniKey::kIconMainMenu, PresenceDefaults::kIconMainMenu);
     c.iconLoading = value(ini, img, IniKey::kIconLoading, PresenceDefaults::kIconLoading);
 

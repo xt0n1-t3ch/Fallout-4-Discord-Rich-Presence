@@ -298,3 +298,39 @@ TEST_CASE("Composer: Pip-Boy uses its dedicated icon, other menus use the menu i
         REQUIRE(compose(g, s, t, cfg, now).smallImageKey == "icon_menu");
     }
 }
+
+TEST_CASE("Composer: VATS shows its own icon and label, winning over combat", "[composer]")
+{
+    Translation t;
+    Settings s;
+    const auto now = std::chrono::steady_clock::now();
+
+    SECTION("VATS menu maps to iconVats and In VATS label")
+    {
+        auto g = base();
+        g.menu = MenuKind::Vats;
+        PresenceConfig cfg;
+        const auto p = compose(g, s, t, cfg, now);
+        REQUIRE(p.smallImageKey == "icon_vats");
+        REQUIRE(p.state == kStar + " Level 12 " + kDot + " In VATS");
+    }
+    SECTION("VATS wins over active combat")
+    {
+        auto g = base();
+        g.menu = MenuKind::Vats;
+        g.inCombat = true;
+        g.combatTargetNames = {"Raider"};
+        PresenceConfig cfg;
+        const auto p = compose(g, s, t, cfg, now);
+        REQUIRE(p.smallImageKey == "icon_vats");
+        REQUIRE(p.state == kStar + " Level 12 " + kDot + " In VATS");
+    }
+    SECTION("empty iconVats falls back to iconMenu")
+    {
+        auto g = base();
+        g.menu = MenuKind::Vats;
+        PresenceConfig cfg;
+        cfg.iconVats.clear();
+        REQUIRE(compose(g, s, t, cfg, now).smallImageKey == "icon_menu");
+    }
+}
