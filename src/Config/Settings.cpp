@@ -52,7 +52,7 @@ bool writeDefault(const std::filesystem::path& iniPath)
     ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowPlayTime.data(), true);
     ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowName.data(), true);
     ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowLvl.data(), true);
-    ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowCaps.data(), true);
+    ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowCaps.data(), false);
     ini.SetLongValue(main.c_str(), Constants::IniKey::kMaxCapsToShow.data(), Constants::kMaxCapsToShowDefault);
     ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowHp.data(), true);
     ini.SetBoolValue(main.c_str(), Constants::IniKey::kShowEventStatuses.data(), true);

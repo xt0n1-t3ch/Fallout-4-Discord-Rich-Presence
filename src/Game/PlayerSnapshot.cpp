@@ -6,7 +6,6 @@
 #include <RE/Fallout.h>
 #include <excpt.h>
 
-#include "Constants.h"
 #include "Game/PlayerAccess.h"
 #include "Util/Logger.h"
 
@@ -37,25 +36,6 @@ namespace {
             return 1.0F;
         return std::clamp(hpNow / hpMax, 0.0F, 1.0F);
     }
-
-    std::int64_t capsCount(RE::PlayerCharacter* player)
-    {
-        auto* form = RE::TESForm::GetFormByID(Constants::kCapsFormID);
-        if (form == nullptr || player->inventoryList == nullptr) {
-            return 0;
-        }
-        auto* capsObj = form->As<RE::TESBoundObject>();
-        if (capsObj == nullptr) {
-            return 0;
-        }
-        std::int64_t total = 0;
-        player->inventoryList->ForEachStack([capsObj](RE::BGSInventoryItem& item) { return item.object == capsObj; },
-                                            [&total](RE::BGSInventoryItem&, RE::BGSInventoryItem::Stack& stack) {
-                                                total += stack.GetCount();
-                                                return true;
-                                            });
-        return total;
-    }
 } // namespace
 
 PlayerSnapshotResult capturePlayerSnapshot()
@@ -84,8 +64,7 @@ PlayerSnapshotResult capturePlayerSnapshot()
     F4DRP_LOG_DBG("PS p8: GetLevel OK, level={}", r.level);
     r.healthPct = healthPct(player);
     F4DRP_LOG_DBG("PS p9: healthPct OK, hp={:.2f}", r.healthPct);
-    r.caps = capsCount(player);
-    F4DRP_LOG_DBG("PS p10: caps (inventory walk, no scrap) OK, caps={}", r.caps);
+    r.caps = 0;
     r.valid = true;
     return r;
 }
