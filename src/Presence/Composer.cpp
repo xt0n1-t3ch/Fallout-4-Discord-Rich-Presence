@@ -137,6 +137,9 @@ namespace {
     {
         p.largeImageKey = cfg.largeImage;
         p.largeImageText = s.customLargeImageText.empty() ? cfg.largeText : s.customLargeImageText;
+        for (const auto& button : cfg.buttons) {
+            p.buttons.emplace_back(button.label, button.url);
+        }
         if (s.showPlayTime) {
             p.startTimestampUnix = startUnix;
         }

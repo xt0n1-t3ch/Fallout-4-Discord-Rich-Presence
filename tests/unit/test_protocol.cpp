@@ -85,3 +85,28 @@ TEST_CASE("buildSetActivityPayload includes timestamps when start>0", "[protocol
     const auto j = F4DRP::Discord::buildSetActivityPayload(1, "n", p);
     REQUIRE(j["args"]["activity"]["timestamps"]["start"].get<std::int64_t>() == 1716595200);
 }
+
+TEST_CASE("buildSetActivityPayload emits small_image and buttons", "[protocol][format]")
+{
+    F4DRP::Discord::PresenceState p;
+    p.details = "X";
+    p.smallImageKey = "icon_combat";
+    p.smallImageText = "In combat";
+    p.buttons = {{"Get the mod", "https://example.com"}, {"Author", "https://author.example"}};
+    const auto j = F4DRP::Discord::buildSetActivityPayload(1, "n", p);
+    REQUIRE(j["args"]["activity"]["assets"]["small_image"].get<std::string>() == "icon_combat");
+    REQUIRE(j["args"]["activity"]["assets"]["small_text"].get<std::string>() == "In combat");
+    const auto& buttons = j["args"]["activity"]["buttons"];
+    REQUIRE(buttons.size() == 2);
+    REQUIRE(buttons[0]["label"].get<std::string>() == "Get the mod");
+    REQUIRE(buttons[0]["url"].get<std::string>() == "https://example.com");
+}
+
+TEST_CASE("buildSetActivityPayload caps buttons at two and drops incomplete", "[protocol][boundary]")
+{
+    F4DRP::Discord::PresenceState p;
+    p.details = "X";
+    p.buttons = {{"A", "https://a"}, {"B", "https://b"}, {"C", "https://c"}, {"NoUrl", ""}};
+    const auto j = F4DRP::Discord::buildSetActivityPayload(1, "n", p);
+    REQUIRE(j["args"]["activity"]["buttons"].size() == 2);
+}

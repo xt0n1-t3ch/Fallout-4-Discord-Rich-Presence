@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <span>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <nlohmann/json.hpp>
@@ -25,6 +26,7 @@ struct PresenceState
     std::string largeImageText;
     std::string smallImageKey;
     std::string smallImageText;
+    std::vector<std::pair<std::string, std::string>> buttons;
     std::int64_t startTimestampUnix = 0;
     std::uint64_t hash = 0;
 

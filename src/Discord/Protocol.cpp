@@ -78,6 +78,20 @@ nlohmann::json buildSetActivityPayload(int processId, std::string_view nonce, co
     if (presence.startTimestampUnix > 0) {
         activity["timestamps"] = {{"start", presence.startTimestampUnix}};
     }
+    if (!presence.buttons.empty()) {
+        nlohmann::json buttons = nlohmann::json::array();
+        for (const auto& [label, url] : presence.buttons) {
+            if (buttons.size() >= Constants::kDiscordButtonsMax) {
+                break;
+            }
+            if (!label.empty() && !url.empty()) {
+                buttons.push_back({{"label", label}, {"url", url}});
+            }
+        }
+        if (!buttons.empty()) {
+            activity["buttons"] = std::move(buttons);
+        }
+    }
 
     return nlohmann::json{{"cmd", "SET_ACTIVITY"},
                           {"nonce", std::string{nonce}},
@@ -100,6 +114,9 @@ std::uint64_t hashPresence(const PresenceState& p)
         .append(p.smallImageKey)
         .append("\x1F")
         .append(p.smallImageText);
+    for (const auto& [label, url] : p.buttons) {
+        composite.append("\x1F").append(label).append("\x1F").append(url);
+    }
     return Util::fnv1a64(composite);
 }
 

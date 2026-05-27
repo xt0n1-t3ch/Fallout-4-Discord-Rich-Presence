@@ -20,6 +20,7 @@ inline constexpr std::size_t kDiscordStateMax = 128;
 inline constexpr std::size_t kDiscordLargeTextMax = 128;
 inline constexpr std::size_t kDiscordSmallTextMax = 128;
 inline constexpr std::size_t kDiscordButtonLabelMax = 32;
+inline constexpr std::size_t kDiscordButtonsMax = 2;
 
 inline constexpr std::size_t kPayloadHeaderBytes = 8;
 inline constexpr std::size_t kPayloadMaxBytes = 16 * 1024;
