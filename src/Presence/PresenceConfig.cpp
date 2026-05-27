@@ -52,11 +52,12 @@ PresenceConfig parsePresenceConfig(const std::string& iniContents)
 
     c.largeImage = value(ini, img, IniKey::kLargeImage, PresenceDefaults::kLargeImage);
     c.largeText = value(ini, img, IniKey::kLargeText, PresenceDefaults::kLargeText);
-    c.iconExploring = value(ini, img, IniKey::kIconExploring, "");
-    c.iconCombat = value(ini, img, IniKey::kIconCombat, "");
-    c.iconMenu = value(ini, img, IniKey::kIconMenu, "");
-    c.iconMainMenu = value(ini, img, IniKey::kIconMainMenu, "");
-    c.iconLoading = value(ini, img, IniKey::kIconLoading, "");
+    c.iconExploring = value(ini, img, IniKey::kIconExploring, PresenceDefaults::kIconExploring);
+    c.iconCombat = value(ini, img, IniKey::kIconCombat, PresenceDefaults::kIconCombat);
+    c.iconMenu = value(ini, img, IniKey::kIconMenu, PresenceDefaults::kIconMenu);
+    c.iconPipboy = value(ini, img, IniKey::kIconPipboy, PresenceDefaults::kIconPipboy);
+    c.iconMainMenu = value(ini, img, IniKey::kIconMainMenu, PresenceDefaults::kIconMainMenu);
+    c.iconLoading = value(ini, img, IniKey::kIconLoading, PresenceDefaults::kIconLoading);
 
     readButton(ini, IniKey::kButton1Label, IniKey::kButton1Url, c.buttons);
     readButton(ini, IniKey::kButton2Label, IniKey::kButton2Url, c.buttons);

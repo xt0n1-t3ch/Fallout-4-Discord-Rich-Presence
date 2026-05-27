@@ -19,6 +19,12 @@ TEST_CASE("PresenceConfig: empty INI yields Iconic defaults", "[config]")
     REQUIRE(c.fieldSeparator == " \xe2\x80\xa2 ");
     REQUIRE(c.largeImage == "fo4-big");
     REQUIRE(c.largeText == "Fallout 4");
+    REQUIRE(c.iconExploring == "icon_explore");
+    REQUIRE(c.iconCombat == "icon_combat");
+    REQUIRE(c.iconMenu == "icon_menu");
+    REQUIRE(c.iconPipboy == "icon_pipboy");
+    REQUIRE(c.iconMainMenu == "icon_mainmenu");
+    REQUIRE(c.iconLoading == "icon_loading");
     REQUIRE(c.buttons.empty());
 }
 
@@ -37,7 +43,16 @@ TEST_CASE("PresenceConfig: quoted values preserve surrounding spaces", "[config]
     REQUIRE(c.locationSeparatorVerbose == " roaming ");
     REQUIRE(c.largeImage == "my-logo");
     REQUIRE(c.iconCombat == "icon_combat");
-    REQUIRE(c.iconExploring.empty());
+    REQUIRE(c.iconExploring == "icon_explore");
+}
+
+TEST_CASE("PresenceConfig: explicit empty icon key disables that small image", "[config]")
+{
+    const std::string ini = "[Images]\n"
+                            "sIconCombat=\n";
+    const auto c = parsePresenceConfig(ini);
+    REQUIRE(c.iconCombat.empty());
+    REQUIRE(c.iconExploring == "icon_explore");
 }
 
 TEST_CASE("PresenceConfig: buttons require both label and url", "[config]")

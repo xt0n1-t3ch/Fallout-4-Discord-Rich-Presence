@@ -27,11 +27,12 @@ struct PresenceConfig
     std::string largeImage{Constants::PresenceDefaults::kLargeImage};
     std::string largeText{Constants::PresenceDefaults::kLargeText};
 
-    std::string iconExploring;
-    std::string iconCombat;
-    std::string iconMenu;
-    std::string iconMainMenu;
-    std::string iconLoading;
+    std::string iconExploring{Constants::PresenceDefaults::kIconExploring};
+    std::string iconCombat{Constants::PresenceDefaults::kIconCombat};
+    std::string iconMenu{Constants::PresenceDefaults::kIconMenu};
+    std::string iconPipboy{Constants::PresenceDefaults::kIconPipboy};
+    std::string iconMainMenu{Constants::PresenceDefaults::kIconMainMenu};
+    std::string iconLoading{Constants::PresenceDefaults::kIconLoading};
 
     std::vector<Button> buttons;
 };

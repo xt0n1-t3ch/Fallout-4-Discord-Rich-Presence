@@ -88,11 +88,14 @@ bool writeDefault(const std::filesystem::path& iniPath)
     const auto img = std::string{Constants::IniSection::kImages};
     ini.SetValue(img.c_str(), Constants::IniKey::kLargeImage.data(), Constants::PresenceDefaults::kLargeImage.data());
     ini.SetValue(img.c_str(), Constants::IniKey::kLargeText.data(), Constants::PresenceDefaults::kLargeText.data());
-    ini.SetValue(img.c_str(), Constants::IniKey::kIconExploring.data(), "");
-    ini.SetValue(img.c_str(), Constants::IniKey::kIconCombat.data(), "");
-    ini.SetValue(img.c_str(), Constants::IniKey::kIconMenu.data(), "");
-    ini.SetValue(img.c_str(), Constants::IniKey::kIconMainMenu.data(), "");
-    ini.SetValue(img.c_str(), Constants::IniKey::kIconLoading.data(), "");
+    ini.SetValue(
+        img.c_str(), Constants::IniKey::kIconExploring.data(), Constants::PresenceDefaults::kIconExploring.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconCombat.data(), Constants::PresenceDefaults::kIconCombat.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconMenu.data(), Constants::PresenceDefaults::kIconMenu.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconPipboy.data(), Constants::PresenceDefaults::kIconPipboy.data());
+    ini.SetValue(
+        img.c_str(), Constants::IniKey::kIconMainMenu.data(), Constants::PresenceDefaults::kIconMainMenu.data());
+    ini.SetValue(img.c_str(), Constants::IniKey::kIconLoading.data(), Constants::PresenceDefaults::kIconLoading.data());
 
     const auto buttons = std::string{Constants::IniSection::kButtons};
     ini.SetValue(buttons.c_str(), Constants::IniKey::kButton1Label.data(), "");

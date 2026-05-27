@@ -128,7 +128,8 @@ namespace {
             if (g.menuShowsLocation) {
                 base = withLocation(std::move(base), g, s, cfg);
             }
-            return {std::move(base), &cfg.iconMenu};
+            const bool usePipboyIcon = g.menu == Game::MenuKind::PipBoy && !cfg.iconPipboy.empty();
+            return {std::move(base), usePipboyIcon ? &cfg.iconPipboy : &cfg.iconMenu};
         }
         if (g.menu == Game::MenuKind::None && g.menuModeActive) {
             return {std::string{t.get(StringKey::kInMenu, Defaults::kInMenu)}, &cfg.iconMenu};

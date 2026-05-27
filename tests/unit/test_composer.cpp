@@ -268,3 +268,33 @@ TEST_CASE("Composer: caps are grouped and clamp adds a plus suffix", "[composer]
         REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kCoin + " 9,999+");
     }
 }
+
+TEST_CASE("Composer: Pip-Boy uses its dedicated icon, other menus use the menu icon", "[composer]")
+{
+    Translation t;
+    Settings s;
+    const auto now = std::chrono::steady_clock::now();
+
+    SECTION("Pip-Boy menu maps to iconPipboy")
+    {
+        auto g = base();
+        g.menu = MenuKind::PipBoy;
+        PresenceConfig cfg;
+        REQUIRE(compose(g, s, t, cfg, now).smallImageKey == "icon_pipboy");
+    }
+    SECTION("Workshop menu maps to iconMenu")
+    {
+        auto g = base();
+        g.menu = MenuKind::Workshop;
+        PresenceConfig cfg;
+        REQUIRE(compose(g, s, t, cfg, now).smallImageKey == "icon_menu");
+    }
+    SECTION("empty iconPipboy falls back to iconMenu")
+    {
+        auto g = base();
+        g.menu = MenuKind::PipBoy;
+        PresenceConfig cfg;
+        cfg.iconPipboy.clear();
+        REQUIRE(compose(g, s, t, cfg, now).smallImageKey == "icon_menu");
+    }
+}

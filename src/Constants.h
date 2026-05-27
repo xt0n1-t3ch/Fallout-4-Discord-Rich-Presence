@@ -94,6 +94,7 @@ namespace IniKey {
     inline constexpr std::string_view kIconExploring = "sIconExploring";
     inline constexpr std::string_view kIconCombat = "sIconCombat";
     inline constexpr std::string_view kIconMenu = "sIconMenu";
+    inline constexpr std::string_view kIconPipboy = "sIconPipboy";
     inline constexpr std::string_view kIconMainMenu = "sIconMainMenu";
     inline constexpr std::string_view kIconLoading = "sIconLoading";
 
@@ -113,6 +114,12 @@ namespace PresenceDefaults {
     inline constexpr std::string_view kLocationSeparatorVerbose = " in ";
     inline constexpr std::string_view kLargeImage = "fo4-big";
     inline constexpr std::string_view kLargeText = "Fallout 4";
+    inline constexpr std::string_view kIconExploring = "icon_explore";
+    inline constexpr std::string_view kIconCombat = "icon_combat";
+    inline constexpr std::string_view kIconMenu = "icon_menu";
+    inline constexpr std::string_view kIconPipboy = "icon_pipboy";
+    inline constexpr std::string_view kIconMainMenu = "icon_mainmenu";
+    inline constexpr std::string_view kIconLoading = "icon_loading";
 } // namespace PresenceDefaults
 
 namespace StringKey {
