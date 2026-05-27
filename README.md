@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence">
-    <img src="./.github/assets/banner.svg" alt="Discord Rich Presence for Fallout 4" width="100%"/>
+    <img src="./.github/assets/hero.png" alt="Discord Rich Presence for Fallout 4" width="100%"/>
   </a>
 </p>
 
