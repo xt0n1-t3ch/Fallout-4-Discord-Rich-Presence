@@ -42,3 +42,6 @@ gemini.md
 .aider*
 .specify/
 specs/
+
+# raw sources for tools/build-discord-assets.py (regenerable)
+dist/discord-assets/source/
