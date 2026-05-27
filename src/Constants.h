@@ -106,7 +106,7 @@ namespace IniKey {
 namespace PresenceDefaults {
     inline constexpr std::string_view kFieldName = "{name}";
     inline constexpr std::string_view kFieldLevel = "\xe2\xad\x90 Level {level}";
-    inline constexpr std::string_view kFieldHp = "\xe2\x9d\xa4 {hp}%";
+    inline constexpr std::string_view kFieldHp = "\xf0\x9f\x92\x89 {hp}%";
     inline constexpr std::string_view kFieldCaps = "\xf0\x9f\xaa\x99 {caps}";
     inline constexpr std::string_view kFieldSeparator = " \xe2\x80\xa2 ";
     inline constexpr std::string_view kLocationSeparatorSimplified = " \xe2\x80\xa2 ";

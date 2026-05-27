@@ -18,7 +18,7 @@ using F4DRP::Presence::PresenceConfig;
 
 namespace {
 const std::string kDot = "\xe2\x80\xa2";
-const std::string kHeart = "\xe2\x9d\xa4";
+const std::string kStim = "\xf0\x9f\x92\x89";
 const std::string kCoin = "\xf0\x9f\xaa\x99";
 const std::string kStar = "\xe2\xad\x90";
 
@@ -45,7 +45,7 @@ TEST_CASE("Composer: details = name, HP, caps; level moves to the state line", "
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
 
-    REQUIRE(p.details == "Sole Survivor " + kDot + " " + kHeart + " 85% " + kDot + " " + kCoin + " 1,234");
+    REQUIRE(p.details == "Sole Survivor " + kDot + " " + kStim + " 85% " + kDot + " " + kCoin + " 1,234");
     REQUIRE(p.state == kStar + " Level 12 " + kDot + " In Pipboy Menu");
     REQUIRE(p.largeImageKey == "fo4-big");
     REQUIRE(p.startTimestampUnix == 1716595200);
@@ -61,7 +61,7 @@ TEST_CASE("Composer: field toggles drop detail segments cleanly", "[composer]")
     Translation t;
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-    REQUIRE(p.details == kHeart + " 85%");
+    REQUIRE(p.details == kStim + " 85%");
 }
 
 TEST_CASE("Composer: combat shows level, enemy and location, icon applied", "[composer]")
@@ -234,12 +234,12 @@ TEST_CASE("Composer: HP formatting boundaries", "[composer][boundary]")
     SECTION("zero")
     {
         g.healthPct = 0.0F;
-        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kHeart + " 0%");
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kStim + " 0%");
     }
     SECTION("full")
     {
         g.healthPct = 1.0F;
-        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kHeart + " 100%");
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kStim + " 100%");
     }
 }
 

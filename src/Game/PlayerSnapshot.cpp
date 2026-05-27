@@ -6,6 +6,7 @@
 #include <RE/Fallout.h>
 #include <excpt.h>
 
+#include "Constants.h"
 #include "Game/PlayerAccess.h"
 #include "Util/Logger.h"
 
@@ -36,6 +37,35 @@ namespace {
             return 1.0F;
         return std::clamp(hpNow / hpMax, 0.0F, 1.0F);
     }
+
+    constexpr std::uint32_t kMaxInventoryEntries = 8192;
+    constexpr int kMaxStacksPerItem = 256;
+
+    std::int64_t capsCount(RE::PlayerCharacter* player)
+    {
+        auto* inv = player->inventoryList;
+        if (!isUserspacePtr(inv)) {
+            return 0;
+        }
+        const auto entries = inv->data.size();
+        if (entries == 0 || entries > kMaxInventoryEntries) {
+            return 0;
+        }
+        std::int64_t total = 0;
+        for (std::uint32_t i = 0; i < entries; ++i) {
+            auto* obj = inv->data[i].object;
+            if (!isUserspacePtr(obj) || obj->GetFormID() != Constants::kCapsFormID) {
+                continue;
+            }
+            int stacks = 0;
+            for (auto* st = inv->data[i].stackData.get(); isUserspacePtr(st) && stacks < kMaxStacksPerItem;
+                 st = st->nextStack.get(), ++stacks)
+            {
+                total += st->count;
+            }
+        }
+        return total;
+    }
 } // namespace
 
 PlayerSnapshotResult capturePlayerSnapshot()
@@ -64,7 +94,8 @@ PlayerSnapshotResult capturePlayerSnapshot()
     F4DRP_LOG_DBG("PS p8: GetLevel OK, level={}", r.level);
     r.healthPct = healthPct(player);
     F4DRP_LOG_DBG("PS p9: healthPct OK, hp={:.2f}", r.healthPct);
-    r.caps = 0;
+    r.caps = capsCount(player);
+    F4DRP_LOG_DBG("PS p10: caps (guarded inventory walk, no GetFormByID) OK, caps={}", r.caps);
     r.valid = true;
     return r;
 }

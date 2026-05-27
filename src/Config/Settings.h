@@ -11,7 +11,7 @@ struct Settings
     bool showPlayTime = true;
     bool showName = true;
     bool showLvl = true;
-    bool showCaps = false;
+    bool showCaps = true;
     std::int64_t maxCapsToShow = 99'999'999;
     bool showHp = true;
     bool showEventStatuses = true;
