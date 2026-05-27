@@ -19,6 +19,7 @@
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-19E37D?style=flat"></a>
   <a href="https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence?style=flat&color=19E37D&logo=github&logoColor=white"></a>
   <a href="https://xt0n1.com"><img alt="Author" src="https://img.shields.io/badge/by-xt0n1-19E37D?style=flat"></a>
+  <a href="https://github.com/sponsors/xt0n1-t3ch"><img alt="Sponsor" src="https://img.shields.io/github/sponsors/xt0n1-t3ch?style=flat&color=EA4AAA&logo=githubsponsors&logoColor=white&label=sponsor"></a>
 </p>
 
 <p align="center">
@@ -99,8 +100,8 @@ sFieldSeparator  = " • "
 sLocationConnector = " in "
 
 [Buttons]
-sButton1Label = Get the mod
-sButton1Url   = https://www.nexusmods.com/fallout4/mods/77771
+sButton1Label = Project page
+sButton1Url   = https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence
 ```
 
 Tokens: `{name}` `{level}` `{hp}` `{caps}` `{location}` `{enemy}` `{menu}` `{event}`. Empty tokens
@@ -124,8 +125,9 @@ Drop the release into your game folder so the files land here, then launch once 
 <Fallout 4>\Data\F4SE\Plugins\discord_rich_presence_translation.ini
 ```
 
-If you ran the original Nexus 77771 mod, delete its `Discord_Presence_F4SE_Remake.dll` — this
-plugin detects the conflict at load and refuses to send frames while both are present.
+If you previously installed another Fallout 4 Discord Rich Presence plugin shipped as
+`Discord_Presence_F4SE_Remake.dll`, delete that DLL — this plugin detects the conflict at load
+and refuses to send frames while both are present.
 
 ## Build
 
@@ -155,13 +157,14 @@ tools\ctest-flat-ng-debug.bat
 | 1.11.169 / 1.10.984 (NG) | 0.7.6 / 0.7.2 | Same NG path |
 | 1.10.163 (old-gen) | 0.6.23 | Cross-gen path, best-effort |
 
-## What's different from Nexus 77771
+## Highlights
 
-This is a clean-room rewrite, not a patch. It loads on next-gen where the original misses the
-renumbered Address Library IDs; resolves the UI singleton by an exact vtable match instead of a
-broken ID; reads game state without the ScrapHeap allocation that crashed the engine; renders
-through a configurable template engine instead of fixed strings; and ships the entire decision
-pipeline under offline tests so layout changes are verified without opening the game.
+A clean-room rewrite. Loads on next-gen because the renumbered Address Library IDs are
+resolved through reproducible offline binary scans; resolves the UI singleton by an exact
+vtable match instead of a now-broken stock ID; reads game state without the ScrapHeap
+allocation that had crashed the engine; renders the whole presence through a configurable
+template engine instead of fixed strings; and ships the entire decision pipeline under offline
+tests so layout changes are verified without opening the game.
 
 ## Architecture
 
@@ -176,9 +179,15 @@ src/
 tools/re/    reproducible offline binary scanners used to map the NG addresses
 ```
 
+## Support
+
+Maintained on personal time. If this earned a place in your load order, the sponsor button at
+the top of the repository links to GitHub Sponsors, Ko-fi and Buy Me a Coffee. Bug reports,
+repro saves and pull requests are equally welcome.
+
 ## Credits
 
-- TommInfinite — original Discord RP REMAKE (Nexus 77771), the design reference.
+- TommInfinite — design reference for the original F4 Discord Rich Presence remake.
 - alandtse & Ryan-rsm-McKenzie — CommonLibF4; ianpatt, behippo, purplelunchbox — F4SE.
 
 ## License

@@ -43,8 +43,8 @@ upload.
 
 ```ini
 [Buttons]
-sButton1Label = Get the mod
-sButton1Url   = https://www.nexusmods.com/fallout4/mods/77771
+sButton1Label = Project page
+sButton1Url   = https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence
 ```
 
 Buttons appear to other people viewing your profile, not in your own client. A button is used only

@@ -71,7 +71,7 @@ These three Mapper bugs are NOT diagnosed away by fixing B1 — they're independ
 
 **Verdict C**: C1 is structural — we have no equivalent of the reference's `kPostPostLoad → SetDiscordPresence("", "Launching game")` early-frame. C2 is secondary; the reference's `parentCell == nullptr → "In Main menu"` is more robust than any sink-based menu detection.
 
-### Failure class D — Missing feature parity vs Nexus 77771
+### Failure class D — Missing feature parity vs the reference
 
 | # | Missing feature | Evidence | Fix lane |
 |:---|:---|:---|:---|

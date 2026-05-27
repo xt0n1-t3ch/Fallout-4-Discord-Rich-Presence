@@ -1,0 +1,28 @@
+# F4 Discord Rich Presence
+
+> F4SE plugin that broadcasts Fallout 4 player state to Discord Rich Presence: full lifecycle, all eleven menus, combat target, exterior and interior location, timed event statuses, with a configurable INI-driven template engine, per-state small images, and a single DLL that loads on old-gen (1.10.163) and Next-Gen (1.10.984 / 1.11.169 / 1.11.191). The NG runtime path was reverse-engineered from the binary because the stock Address Library IDs were renumbered.
+
+## Docs
+
+- [README](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/README.md): features, install, INI reference, build steps
+- [Configuration](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/docs/configuration.md): every INI key, defaults, token list, override patterns
+- [Discord app setup](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/docs/discord-app-setup.md): create your own Discord application, upload the art assets, paste your AppID into the INI
+- [Diagnosis log](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/docs/DIAGNOSIS.md): the NG runtime saga, Main::Update hook, g_UI vtable resolver, non-scrap-allocating reads
+- [Lessons learned](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/docs/LESSONS-LEARNED.md): reverse-engineering notes, SEH-over-engine-lock deadlock rule, address-library renumbering
+- [Docs index](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/docs/index.md)
+- [Tests index](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/tests/index.md)
+- [Changelog](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/blob/main/CHANGELOG.md)
+
+## Source
+
+- [src/](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/tree/main/src): plugin source — Plugin, Game, Presence, Discord, Config, Util layers
+- [tests/](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/tree/main/tests): Catch2 offline test suite covering config, template, composer, protocol, dispatch
+- [tools/](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/tree/main/tools): build batch scripts and the reproducible offline Address Library scanners
+- [dist/discord-assets/](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/tree/main/dist/discord-assets): the 1024x1024 art assets users upload to their own Discord application
+
+## Optional
+
+- [Releases](https://github.com/xt0n1-t3ch/Fallout-4-Discord-Rich-Presence/releases): prebuilt DLL + INI defaults + assets bundle
+- [Discord Developer Portal](https://discord.com/developers/applications): where users register their own AppID and upload the art assets
+- [F4SE](https://f4se.silverlock.org): runtime prerequisite per game version
+- [Address Library AIO (Nexus 47327)](https://www.nexusmods.com/fallout4/mods/47327): runtime address resolution

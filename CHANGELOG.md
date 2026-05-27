@@ -4,6 +4,34 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-05-27
+
+Polish release. Adds a dedicated Pip-Boy icon slot, a dedicated VATS slot that wins over the
+combat branch, refreshed art across the seven small images and the large image, plus repo
+hygiene (sponsor button, llms.txt, art preview cleanup).
+
+### Added
+
+- `[Images] sIconPipboy` key: the Pip-Boy menu now shows its own small image instead of the
+  generic menu icon. Falls back to `sIconMenu` when empty.
+- `[Images] sIconVats` key: entering VATS shows the VATS small image and `In VATS` label,
+  taking priority over the combat branch so the icon actually appears mid-fight.
+- Pre-populated `[Images]` defaults (`icon_explore`, `icon_combat`, `icon_menu`, `icon_pipboy`,
+  `icon_vats`, `icon_mainmenu`, `icon_loading`) so a fresh INI renders out of the box once the
+  user uploads the assets to their own Discord application. An explicit empty key still disables
+  that small image.
+- `.github/FUNDING.yml` enables the repository sponsor button (GitHub Sponsors, Ko-fi,
+  Buy Me a Coffee).
+- `llms.txt` at the repository root — spec-compliant index for LLM-driven retrieval.
+
+### Changed
+
+- Refreshed art set: large image is the T-60 power armor helmet; combat is the Vault Boy tommy
+  gun; explore is the Red Rocket gas station; menu is the Vault Boy statue; Pip-Boy is the
+  Pip-Boy 3000 Mark IV device alone on transparent background; VATS is the Vault Boy VATS
+  illustration; main menu is the Vault 111 door; loading is the Pip-Boy loading screen art.
+- README adds a sponsor badge and a Support section.
+
 ## [1.0.0] - 2026-05-26
 
 First public release: a single F4SE DLL that runs on Fallout 4 old-gen and next-gen, with the

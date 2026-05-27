@@ -8,7 +8,7 @@
 
 **What the reference actually does** (after I finally read its 17 KB `main.cpp` from the Mega source archive): trampoline write_call hook on `BGSAnimSoundStateManager::Update`, polled `g_UI->GetMenuOpen()`, hardcoded `largeImageKey="fo4-big"`, custom `TESPlacementSource` at `REL::ID(1067439)`. Every architectural detail was wrong in the plan.
 
-**Rule cited (§3.2 Think Before Coding — "Trust-then-verify (HARD)")**: when there's an authoritative reference, read its source FIRST. The Nexus 77771 page literally has a "Source code is located [here]" link pointing to a 32 KB Mega archive. That should have been the first artifact pulled in research, not the last.
+**Rule cited (§3.2 Think Before Coding — "Trust-then-verify (HARD)")**: when there's an authoritative reference, read its source FIRST. The reference mod's page literally has a "Source code is located [here]" link pointing to a 32 KB Mega archive. That should have been the first artifact pulled in research, not the last.
 
 **Repeat-prevention rule**: any rewrite of an existing working thing starts with reading the working thing's source. No exceptions. If the source link is gated (Mega, login-walled), invoke `/browser` to fetch it. If it doesn't exist at all, state `REFERENCE_SOURCE_MISSING` and downgrade confidence on every architectural claim.
 
@@ -61,7 +61,7 @@ The reference plugin has zero pointer-validity checks because it polls from the 
 
 ## Lesson 7 — Acknowledge runtime ground-truth has higher trust than design-time docs
 
-**What I had**: TommInfinite's Nexus 77771 changelog states *"Code runs in the main game thread ensuring more stability."* The plan correctly identified this as the canonical pattern. But the plan **assumed** "main thread" meant `F4SE::GetTaskInterface()->AddTask`, when the source shows it's a trampoline write_call hook. Both are technically "main thread", but the engineering implications are wildly different (queuing latency, dependency on TaskInterface being live, multiple-pending-task pile-up under update bursts).
+**What I had**: the reference mod's changelog states *"Code runs in the main game thread ensuring more stability."* The plan correctly identified this as the canonical pattern. But the plan **assumed** "main thread" meant `F4SE::GetTaskInterface()->AddTask`, when the source shows it's a trampoline write_call hook. Both are technically "main thread", but the engineering implications are wildly different (queuing latency, dependency on TaskInterface being live, multiple-pending-task pile-up under update bursts).
 
 **Rule cited (§3.2 Cognitive vs mechanical enforcement)**: design-time language ("runs on main thread") is informational; runtime evidence (the actual source code, the actual trampoline install pattern, the actual REL::ID) is authoritative. Don't elevate informational claims to design constraints without runtime corroboration.
 
