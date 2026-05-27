@@ -42,7 +42,8 @@ inline constexpr std::string_view kPluginAuthor = "xt0n1";
 inline constexpr std::string_view kConflictPluginDll = "Discord_Presence_F4SE_Remake.dll";
 inline constexpr std::uint32_t kPluginVersion = 0x0001'0000U;
 
-inline constexpr std::int64_t kMaxCapsToShowDefault = 9'999LL;
+inline constexpr std::int64_t kMaxCapsToShowDefault = 99'999'999LL;
+inline constexpr std::uint32_t kCapsFormID = 0x0000000FU;
 inline constexpr std::int64_t kMaxCapsAbsolute = 99'999'999LL;
 inline constexpr std::int64_t kMinCapsAbsolute = 0LL;
 
@@ -104,9 +105,9 @@ namespace IniKey {
 
 namespace PresenceDefaults {
     inline constexpr std::string_view kFieldName = "{name}";
-    inline constexpr std::string_view kFieldLevel = "LVL {level}";
-    inline constexpr std::string_view kFieldHp = "{hp}% HP";
-    inline constexpr std::string_view kFieldCaps = "{caps} caps";
+    inline constexpr std::string_view kFieldLevel = "\xe2\xad\x90 Level {level}";
+    inline constexpr std::string_view kFieldHp = "\xe2\x9d\xa4 {hp}%";
+    inline constexpr std::string_view kFieldCaps = "\xf0\x9f\xaa\x99 {caps}";
     inline constexpr std::string_view kFieldSeparator = " \xe2\x80\xa2 ";
     inline constexpr std::string_view kLocationSeparatorSimplified = " \xe2\x80\xa2 ";
     inline constexpr std::string_view kLocationSeparatorVerbose = " in ";

@@ -14,8 +14,8 @@ TEST_CASE("PresenceConfig: empty INI yields Iconic defaults", "[config]")
 {
     const auto c = parsePresenceConfig("");
     REQUIRE(c.fieldName == "{name}");
-    REQUIRE(c.fieldLevel == "LVL {level}");
-    REQUIRE(c.fieldHp == "{hp}% HP");
+    REQUIRE(c.fieldLevel == "\xe2\xad\x90 Level {level}");
+    REQUIRE(c.fieldHp == "\xe2\x9d\xa4 {hp}%");
     REQUIRE(c.fieldSeparator == " \xe2\x80\xa2 ");
     REQUIRE(c.largeImage == "fo4-big");
     REQUIRE(c.largeText == "Fallout 4");

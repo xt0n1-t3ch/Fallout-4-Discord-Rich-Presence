@@ -18,6 +18,9 @@ using F4DRP::Presence::PresenceConfig;
 
 namespace {
 const std::string kDot = "\xe2\x80\xa2";
+const std::string kHeart = "\xe2\x9d\xa4";
+const std::string kCoin = "\xf0\x9f\xaa\x99";
+const std::string kStar = "\xe2\xad\x90";
 
 GameState base()
 {
@@ -32,7 +35,7 @@ GameState base()
 }
 } // namespace
 
-TEST_CASE("Composer: Iconic details layout with bullet separator", "[composer]")
+TEST_CASE("Composer: details = name, HP, caps; level moves to the state line", "[composer]")
 {
     auto g = base();
     g.menu = MenuKind::PipBoy;
@@ -42,25 +45,26 @@ TEST_CASE("Composer: Iconic details layout with bullet separator", "[composer]")
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
 
-    REQUIRE(p.details == "Sole Survivor " + kDot + " LVL 12 " + kDot + " 85% HP " + kDot + " 1234 caps");
-    REQUIRE(p.state == "In Pipboy Menu");
+    REQUIRE(p.details == "Sole Survivor " + kDot + " " + kHeart + " 85% " + kDot + " " + kCoin + " 1,234");
+    REQUIRE(p.state == kStar + " Level 12 " + kDot + " In Pipboy Menu");
     REQUIRE(p.largeImageKey == "fo4-big");
     REQUIRE(p.startTimestampUnix == 1716595200);
 }
 
-TEST_CASE("Composer: field toggles drop segments cleanly", "[composer]")
+TEST_CASE("Composer: field toggles drop detail segments cleanly", "[composer]")
 {
     auto g = base();
+    g.menu = MenuKind::PipBoy;
     Settings s;
     s.showName = false;
     s.showCaps = false;
     Translation t;
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-    REQUIRE(p.details == "LVL 12 " + kDot + " 85% HP");
+    REQUIRE(p.details == kHeart + " 85%");
 }
 
-TEST_CASE("Composer: combat shows enemy and location, icon applied", "[composer]")
+TEST_CASE("Composer: combat shows level, enemy and location, icon applied", "[composer]")
 {
     auto g = base();
     g.inCombat = true;
@@ -74,7 +78,7 @@ TEST_CASE("Composer: combat shows enemy and location, icon applied", "[composer]
         Settings s;
         s.simplifiedStatus = true;
         const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-        REQUIRE(p.state == "Fighting Raider " + kDot + " Sanctuary Hills");
+        REQUIRE(p.state == kStar + " Level 12 " + kDot + " Fighting Raider " + kDot + " Sanctuary Hills");
         REQUIRE(p.smallImageKey == "icon_combat");
     }
     SECTION("verbose uses in")
@@ -82,11 +86,11 @@ TEST_CASE("Composer: combat shows enemy and location, icon applied", "[composer]
         Settings s;
         s.simplifiedStatus = false;
         const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-        REQUIRE(p.state == "Fighting Raider in Sanctuary Hills");
+        REQUIRE(p.state == kStar + " Level 12 " + kDot + " Fighting Raider in Sanctuary Hills");
     }
 }
 
-TEST_CASE("Composer: exploring fallback", "[composer]")
+TEST_CASE("Composer: exploring fallback with level prefix", "[composer]")
 {
     auto g = base();
     Settings s;
@@ -94,7 +98,7 @@ TEST_CASE("Composer: exploring fallback", "[composer]")
     Translation t;
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-    REQUIRE(p.state == "Exploring " + kDot + " Sanctuary Hills");
+    REQUIRE(p.state == kStar + " Level 12 " + kDot + " Exploring " + kDot + " Sanctuary Hills");
 }
 
 TEST_CASE("Composer: generic in-menu when menuMode but no specific menu", "[composer]")
@@ -106,10 +110,22 @@ TEST_CASE("Composer: generic in-menu when menuMode but no specific menu", "[comp
     Translation t;
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-    REQUIRE(p.state == "In a menu");
+    REQUIRE(p.state == kStar + " Level 12 " + kDot + " In a menu");
 }
 
-TEST_CASE("Composer: lifecycle states use details only", "[composer]")
+TEST_CASE("Composer: level is omitted when showLvl is off", "[composer]")
+{
+    auto g = base();
+    g.menu = MenuKind::PipBoy;
+    Settings s;
+    s.showLvl = false;
+    Translation t;
+    PresenceConfig cfg;
+    const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
+    REQUIRE(p.state == "In Pipboy Menu");
+}
+
+TEST_CASE("Composer: lifecycle states use details only, no level prefix", "[composer]")
 {
     Translation t;
     PresenceConfig cfg;
@@ -154,10 +170,10 @@ TEST_CASE("Composer: event status overrides combat for its window", "[composer]"
     Translation t;
     PresenceConfig cfg;
     const auto p = compose(g, s, t, cfg, now);
-    REQUIRE(p.state == "Hacked Terminal " + kDot + " Sanctuary Hills");
+    REQUIRE(p.state == kStar + " Level 12 " + kDot + " Hacked Terminal " + kDot + " Sanctuary Hills");
 }
 
-TEST_CASE("Composer: custom overrides and swap", "[composer]")
+TEST_CASE("Composer: custom overrides win and swap exchanges lines", "[composer]")
 {
     auto g = base();
     g.menu = MenuKind::PipBoy;
@@ -176,14 +192,16 @@ TEST_CASE("Composer: custom overrides and swap", "[composer]")
     SECTION("swap lines")
     {
         Settings s;
-        s.swapLines = true;
         const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
-        REQUIRE(p.state == "Sole Survivor " + kDot + " LVL 12 " + kDot + " 85% HP " + kDot + " 1234 caps");
-        REQUIRE(p.details == "In Pipboy Menu");
+        Settings sw;
+        sw.swapLines = true;
+        const auto q = compose(g, sw, t, cfg, std::chrono::steady_clock::now());
+        REQUIRE(q.state == p.details);
+        REQUIRE(q.details == p.state);
     }
 }
 
-TEST_CASE("Composer: every cataloged menu maps to its label and location rule", "[composer]")
+TEST_CASE("Composer: every cataloged menu maps to label, location and level prefix", "[composer]")
 {
     Translation t;
     PresenceConfig cfg;
@@ -196,7 +214,8 @@ TEST_CASE("Composer: every cataloged menu maps to its label and location rule", 
         g.menuShowsLocation = menu.showsLocation;
         const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
         const std::string label{menu.defaultLabel};
-        const std::string expected = menu.showsLocation ? label + " " + kDot + " Sanctuary Hills" : label;
+        std::string status = menu.showsLocation ? label + " " + kDot + " Sanctuary Hills" : label;
+        const std::string expected = kStar + " Level 12 " + kDot + " " + status;
         INFO("menu=" << label);
         REQUIRE(p.state == expected);
     }
@@ -215,16 +234,16 @@ TEST_CASE("Composer: HP formatting boundaries", "[composer][boundary]")
     SECTION("zero")
     {
         g.healthPct = 0.0F;
-        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == "LVL 12 " + kDot + " 0% HP");
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kHeart + " 0%");
     }
     SECTION("full")
     {
         g.healthPct = 1.0F;
-        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == "LVL 12 " + kDot + " 100% HP");
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kHeart + " 100%");
     }
 }
 
-TEST_CASE("Composer: caps clamp adds plus suffix", "[composer][boundary]")
+TEST_CASE("Composer: caps are grouped and clamp adds a plus suffix", "[composer][boundary]")
 {
     Translation t;
     PresenceConfig cfg;
@@ -233,9 +252,19 @@ TEST_CASE("Composer: caps clamp adds plus suffix", "[composer][boundary]")
     s.showLvl = false;
     s.showHp = false;
     s.showCaps = true;
-    s.maxCapsToShow = 9999;
     auto g = base();
     g.menu = MenuKind::PipBoy;
-    g.caps = 50000;
-    REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == "9999+ caps");
+
+    SECTION("grouped thousands")
+    {
+        s.maxCapsToShow = 99999999;
+        g.caps = 10000000;
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kCoin + " 10,000,000");
+    }
+    SECTION("clamp")
+    {
+        s.maxCapsToShow = 9999;
+        g.caps = 50000;
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == kCoin + " 9,999+");
+    }
 }

@@ -1,5 +1,6 @@
 #include "Presence/Composer.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -21,11 +22,27 @@ namespace {
         return {};
     }
 
+    std::string groupThousands(std::int64_t value)
+    {
+        const auto digits = fmt::format("{}", value);
+        std::string out;
+        int count = 0;
+        for (auto it = digits.rbegin(); it != digits.rend(); ++it) {
+            if (count != 0 && count % 3 == 0) {
+                out.push_back(',');
+            }
+            out.push_back(*it);
+            ++count;
+        }
+        std::reverse(out.begin(), out.end());
+        return out;
+    }
+
     std::string formatCaps(std::int64_t caps, std::int64_t maxToShow)
     {
         const bool clamped = caps > maxToShow;
         const auto shown = clamped ? maxToShow : caps;
-        return fmt::format("{}{}", shown, clamped ? "+" : "");
+        return groupThousands(shown) + (clamped ? "+" : "");
     }
 
     FieldMap buildFields(const Game::GameState& g, const Config::Settings& s, const Config::Translation& t)
@@ -51,9 +68,6 @@ namespace {
         std::vector<std::string> parts;
         if (s.showName && !g.playerName.empty()) {
             parts.push_back(render(cfg.fieldName, fields));
-        }
-        if (s.showLvl && g.level > 0) {
-            parts.push_back(render(cfg.fieldLevel, fields));
         }
         if (s.showHp) {
             parts.push_back(render(cfg.fieldHp, fields));
@@ -170,6 +184,9 @@ Discord::PresenceState compose(const Game::GameState& g,
     std::string details = detailsLine(g, s, cfg, fields);
     auto state = stateLine(g, s, t, cfg, now);
     std::string stateText = std::move(state.text);
+    if (s.showLvl && g.level > 0) {
+        stateText = joinNonEmpty({render(cfg.fieldLevel, fields), std::move(stateText)}, cfg.fieldSeparator);
+    }
 
     if (!s.customDetails.empty()) {
         details = s.customDetails;
