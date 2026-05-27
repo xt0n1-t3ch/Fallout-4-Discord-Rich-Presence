@@ -28,8 +28,9 @@
 #include "Game/PlayerAccess.h"
 #include "Game/PlayerSnapshot.h"
 #include "Game/UiResolver.h"
-#include "Mapper/Mapper.h"
 #include "Plugin/ConflictCheck.h"
+#include "Presence/Composer.h"
+#include "Presence/PresenceConfig.h"
 #include "Util/Logger.h"
 #include "Util/PlayTime.h"
 
@@ -43,6 +44,7 @@ struct Runtime
 {
     F4DRP::Config::Settings settings;
     F4DRP::Config::Translation translation;
+    F4DRP::Presence::PresenceConfig presenceConfig;
     F4DRP::Discord::Client discord;
     F4DRP::Util::PlayTime playTime;
     std::atomic_bool timerRunning{false};
@@ -265,7 +267,7 @@ void pushLatestSnapshot(std::chrono::steady_clock::time_point now)
     if (!have) {
         return;
     }
-    const auto presence = F4DRP::Mapper::mapGameStateToPresence(snap, rt.settings, rt.translation, now);
+    const auto presence = F4DRP::Presence::compose(snap, rt.settings, rt.translation, rt.presenceConfig, now);
     F4DRP::Game::Diagnostics::logCaptureDecision(snap, presence);
     rt.discord.update(presence, static_cast<int>(rt.settings.updateInterval));
 }
@@ -423,6 +425,7 @@ extern "C" __declspec(dllexport) bool F4SEPlugin_Load(const F4SE::LoadInterface*
     const auto txnPath = rt.pluginDir / std::string{F4DRP::Constants::kTranslationFileName};
     rt.settings = F4DRP::Config::loadOrCreate(iniPath);
     rt.translation = F4DRP::Config::Translation::loadOrEmpty(txnPath);
+    rt.presenceConfig = F4DRP::Presence::loadPresenceConfig(iniPath);
     F4DRP::Util::Logger::setDebugMode(rt.settings.debugMode);
     F4DRP_LOG_INFO("settings loaded; updateInterval={}s, debug={}", rt.settings.updateInterval, rt.settings.debugMode);
 

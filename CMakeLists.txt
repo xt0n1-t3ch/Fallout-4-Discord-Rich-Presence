@@ -64,7 +64,9 @@ add_library(${PROJECT_NAME} SHARED
     src/Game/EventTracker.cpp
     src/Config/Settings.cpp
     src/Config/Translation.cpp
-    src/Mapper/Mapper.cpp
+    src/Presence/Template.cpp
+    src/Presence/Composer.cpp
+    src/Presence/PresenceConfig.cpp
     src/Util/Logger.cpp
     src/Util/PlayTime.cpp
 )
