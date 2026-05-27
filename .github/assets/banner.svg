@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" role="img" aria-label="Discord Rich Presence for Fallout 4">
+  <defs>
+    <radialGradient id="bg" cx="28%" cy="40%" r="90%">
+      <stop offset="0%" stop-color="#0c1a12"/>
+      <stop offset="60%" stop-color="#06120c"/>
+      <stop offset="100%" stop-color="#020806"/>
+    </radialGradient>
+    <linearGradient id="pip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7CFFB0"/>
+      <stop offset="100%" stop-color="#19E37D"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="none"/>
+      <rect width="4" height="1" fill="#19E37D" opacity="0.05"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="320" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="320" rx="18" fill="url(#scan)"/>
+  <rect x="2" y="2" width="1196" height="316" rx="16" fill="none" stroke="#19E37D" stroke-opacity="0.35" stroke-width="2"/>
+
+  <g transform="translate(170 160)" filter="url(#glow)">
+    <circle r="108" fill="none" stroke="#19E37D" stroke-opacity="0.25" stroke-width="2"/>
+    <circle r="88" fill="none" stroke="url(#pip)" stroke-width="6" stroke-dasharray="6 10"/>
+    <circle r="60" fill="none" stroke="#19E37D" stroke-opacity="0.6" stroke-width="3"/>
+    <g stroke="url(#pip)" stroke-width="7" stroke-linecap="round">
+      <line x1="0" y1="-44" x2="0" y2="-20"/>
+      <line x1="38" y1="22" x2="17" y2="10"/>
+      <line x1="-38" y1="22" x2="-17" y2="10"/>
+    </g>
+    <circle r="9" fill="url(#pip)"/>
+  </g>
+
+  <g font-family="Consolas, 'DejaVu Sans Mono', monospace" filter="url(#glow)">
+    <text x="360" y="138" fill="url(#pip)" font-size="56" font-weight="700" letter-spacing="2">DISCORD RICH</text>
+    <text x="360" y="200" fill="url(#pip)" font-size="56" font-weight="700" letter-spacing="2">PRESENCE</text>
+  </g>
+  <text x="362" y="242" font-family="Consolas, monospace" fill="#7CFFB0" fill-opacity="0.9" font-size="22" letter-spacing="3">FALLOUT 4 &#183; F4SE &#183; CROSS-GEN (1.10.163 &#8594; 1.11.191)</text>
+  <text x="362" y="276" font-family="Consolas, monospace" fill="#19E37D" fill-opacity="0.7" font-size="17" letter-spacing="1">live player state on your profile &#183; fully INI-configurable &#183; never crashes the game</text>
+</svg>
