@@ -5,6 +5,7 @@
 
 #include "Constants.h"
 #include "Game/GameState.h"
+#include "Game/MenuCatalog.h"
 #include "Presence/Composer.h"
 #include "Presence/PresenceConfig.h"
 
@@ -180,4 +181,61 @@ TEST_CASE("Composer: custom overrides and swap", "[composer]")
         REQUIRE(p.state == "Sole Survivor " + kDot + " LVL 12 " + kDot + " 85% HP " + kDot + " 1234 caps");
         REQUIRE(p.details == "In Pipboy Menu");
     }
+}
+
+TEST_CASE("Composer: every cataloged menu maps to its label and location rule", "[composer]")
+{
+    Translation t;
+    PresenceConfig cfg;
+    Settings s;
+    s.simplifiedStatus = true;
+
+    for (const auto& menu : F4DRP::Game::kMenuCatalog) {
+        auto g = base();
+        g.menu = menu.kind;
+        g.menuShowsLocation = menu.showsLocation;
+        const auto p = compose(g, s, t, cfg, std::chrono::steady_clock::now());
+        const std::string label{menu.defaultLabel};
+        const std::string expected = menu.showsLocation ? label + " " + kDot + " Sanctuary Hills" : label;
+        INFO("menu=" << label);
+        REQUIRE(p.state == expected);
+    }
+}
+
+TEST_CASE("Composer: HP formatting boundaries", "[composer][boundary]")
+{
+    Translation t;
+    PresenceConfig cfg;
+    Settings s;
+    s.showName = false;
+    s.showCaps = false;
+    auto g = base();
+    g.menu = MenuKind::PipBoy;
+
+    SECTION("zero")
+    {
+        g.healthPct = 0.0F;
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == "LVL 12 " + kDot + " 0% HP");
+    }
+    SECTION("full")
+    {
+        g.healthPct = 1.0F;
+        REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == "LVL 12 " + kDot + " 100% HP");
+    }
+}
+
+TEST_CASE("Composer: caps clamp adds plus suffix", "[composer][boundary]")
+{
+    Translation t;
+    PresenceConfig cfg;
+    Settings s;
+    s.showName = false;
+    s.showLvl = false;
+    s.showHp = false;
+    s.showCaps = true;
+    s.maxCapsToShow = 9999;
+    auto g = base();
+    g.menu = MenuKind::PipBoy;
+    g.caps = 50000;
+    REQUIRE(compose(g, s, t, cfg, std::chrono::steady_clock::now()).details == "9999+ caps");
 }

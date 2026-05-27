@@ -7,7 +7,6 @@ add_executable(f4drp_tests
     unit/test_ratelimiter.cpp
     unit/test_settings.cpp
     unit/test_translation.cpp
-    unit/test_mapper.cpp
     unit/test_menucatalog.cpp
     unit/test_dispatch.cpp
     unit/test_template.cpp
@@ -29,7 +28,6 @@ target_sources(f4drp_tests PRIVATE
     ../src/Config/Translation.cpp
     ../src/Util/PlayTime.cpp
     ../src/Util/Logger.cpp
-    ../src/Mapper/Mapper.cpp
     ../src/Presence/Template.cpp
     ../src/Presence/Composer.cpp
     ../src/Presence/PresenceConfig.cpp

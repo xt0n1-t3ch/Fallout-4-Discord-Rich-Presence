@@ -4,7 +4,12 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "Constants.h"
-#include "Mapper/Mapper.h"
+#include "Presence/Composer.h"
+#include "Presence/PresenceConfig.h"
+
+namespace {
+const F4DRP::Presence::PresenceConfig kCfg;
+}
 
 TEST_CASE("Dispatch: gameLoading branch emits launching-game sentinel", "[dispatch][time][null-empty]")
 {
@@ -16,7 +21,7 @@ TEST_CASE("Dispatch: gameLoading branch emits launching-game sentinel", "[dispat
     g.locationName = "Sanctuary Hills";
     F4DRP::Config::Settings s;
     F4DRP::Config::Translation t;
-    const auto p = F4DRP::Mapper::mapGameStateToPresence(g, s, t, std::chrono::steady_clock::now());
+    const auto p = F4DRP::Presence::compose(g, s, t, kCfg, std::chrono::steady_clock::now());
     REQUIRE(p.details == std::string{F4DRP::Constants::Defaults::kLaunchingGame});
     REQUIRE(p.state.empty());
 }
@@ -32,7 +37,7 @@ TEST_CASE("Dispatch: inMainMenu wins over loaded player snapshot", "[dispatch][n
     F4DRP::Config::Settings s;
     s.showCaps = true;
     F4DRP::Config::Translation t;
-    const auto p = F4DRP::Mapper::mapGameStateToPresence(g, s, t, std::chrono::steady_clock::now());
+    const auto p = F4DRP::Presence::compose(g, s, t, kCfg, std::chrono::steady_clock::now());
     REQUIRE(p.details == std::string{F4DRP::Constants::Defaults::kMainMenu});
     REQUIRE(p.state.empty());
 }
@@ -46,7 +51,7 @@ TEST_CASE("Dispatch: inChargen wins over loaded player snapshot", "[dispatch][nu
     g.healthPct = 1.0F;
     F4DRP::Config::Settings s;
     F4DRP::Config::Translation t;
-    const auto p = F4DRP::Mapper::mapGameStateToPresence(g, s, t, std::chrono::steady_clock::now());
+    const auto p = F4DRP::Presence::compose(g, s, t, kCfg, std::chrono::steady_clock::now());
     REQUIRE(p.details == std::string{F4DRP::Constants::Defaults::kStartedANewGame});
     REQUIRE(p.state.empty());
 }
@@ -90,6 +95,6 @@ TEST_CASE("Dispatch: precedence order is event > combat > menu > exploring", "[d
     F4DRP::Config::Settings s;
     s.simplifiedStatus = false;
     F4DRP::Config::Translation t;
-    const auto p = F4DRP::Mapper::mapGameStateToPresence(g, s, t, now);
+    const auto p = F4DRP::Presence::compose(g, s, t, kCfg, now);
     REQUIRE(p.state == "Hacked Terminal01 in Sanctuary");
 }

@@ -391,7 +391,7 @@ std::filesystem::path computePluginDir()
 
 extern "C" __declspec(dllexport) constinit auto F4SEPlugin_Version = []() noexcept {
     F4SE::PluginVersionData data{};
-    data.PluginVersion(REL::Version{0, 3, 0, 0});
+    data.PluginVersion(REL::Version{1, 0, 0, 0});
     data.PluginName(std::string{F4DRP::Constants::kPluginName});
     data.AuthorName(std::string{F4DRP::Constants::kPluginAuthor});
     data.UsesAddressLibrary(true);

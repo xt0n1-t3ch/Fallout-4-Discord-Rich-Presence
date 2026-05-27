@@ -40,7 +40,7 @@ inline constexpr std::string_view kLogFileName = "discord_rich_presence.log";
 inline constexpr std::string_view kPluginName = "Discord Rich Presence";
 inline constexpr std::string_view kPluginAuthor = "xt0n1";
 inline constexpr std::string_view kConflictPluginDll = "Discord_Presence_F4SE_Remake.dll";
-inline constexpr std::uint32_t kPluginVersion = 0x0003'0000U;
+inline constexpr std::uint32_t kPluginVersion = 0x0001'0000U;
 
 inline constexpr std::int64_t kMaxCapsToShowDefault = 9'999LL;
 inline constexpr std::int64_t kMaxCapsAbsolute = 99'999'999LL;
