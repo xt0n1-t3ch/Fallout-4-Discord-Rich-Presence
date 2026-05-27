@@ -1,23 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
-    <moduleName>Discord Rich Presence F4SE NG</moduleName>
+    <moduleName>F4 Discord Rich Presence v1.1.0</moduleName>
+    <moduleImage showImage="true" showFade="true" height="120"/>
+
     <requiredInstallFiles>
-        <folder source="payload\Data" destination="Data" priority="0" />
+        <folder source="payload\Data" destination="Data" priority="0"/>
     </requiredInstallFiles>
+
     <installSteps order="Explicit">
-        <installStep name="Installation">
+
+        <installStep name="What gets installed">
             <optionalFileGroups order="Explicit">
-                <group name="Notes" type="SelectAll">
+                <group name="F4SE plugin (always installed)" type="SelectAll">
                     <plugins order="Explicit">
-                        <plugin name="Discord Rich Presence F4SE NG (mandatory)">
-                            <description>This will install the single DLL that works on both old-gen (1.10.163) and the entire next-gen family (1.10.984 / 1.11.169 / 1.11.191). Discord must be running for Rich Presence to appear.</description>
+                        <plugin name="discord_rich_presence.dll  ·  cross-gen, old-gen + Next-Gen">
+                            <description>One F4SE plugin DLL drops into Data\F4SE\Plugins\ and loads on Fallout 4 1.10.163 (old-gen) and every Next-Gen build (1.10.984 / 1.11.169 / 1.11.191). The plugin auto-detects the runtime and resolves addresses from the right table.
+
+After this installs the manager will have copied:
+
+  Data\F4SE\Plugins\discord_rich_presence.dll
+  Data\F4SE\Plugins\discord_rich_presence.ini             — default configuration
+  Data\F4SE\Plugins\discord_rich_presence_translation.ini — translatable labels</description>
                             <typeDescriptor>
-                                <type name="Required" />
+                                <type name="Required"/>
                             </typeDescriptor>
                         </plugin>
                     </plugins>
                 </group>
             </optionalFileGroups>
         </installStep>
+
+        <installStep name="After install — first launch">
+            <optionalFileGroups order="Explicit">
+                <group name="Read once" type="SelectAll">
+                    <plugins order="Explicit">
+                        <plugin name="1.  Discord desktop must be running">
+                            <description>The plugin talks to the Discord desktop client over a named pipe. The web client does not expose RPC, so the Rich Presence card will not appear without the desktop app open and logged in.
+
+Discord  →  Settings  →  Activity Privacy  →  "Share your detected activities with others"  must be ON for the card to render to anyone other than yourself.</description>
+                            <typeDescriptor><type name="Recommended"/></typeDescriptor>
+                        </plugin>
+                        <plugin name="2.  Set your Discord AppID in the INI">
+                            <description>The default AppID points at a placeholder app that only ships the large image. To see the custom small images (Pip-Boy, VATS, combat, etc.) you must:
+
+  1. Create your own application at https://discord.com/developers/applications
+  2. Upload the art assets shipped under dist\discord-assets\ to Rich Presence  →  Art Assets
+  3. Open Data\F4SE\Plugins\discord_rich_presence.ini
+  4. Under [Main] set:  AppID = &lt;your-19-digit-application-id&gt;
+  5. Launch Fallout 4
+
+Full step-by-step guide:  docs\discord-app-setup.md in the repository.</description>
+                            <typeDescriptor><type name="Recommended"/></typeDescriptor>
+                        </plugin>
+                        <plugin name="3.  Customise the layout in the INI">
+                            <description>The full presence layout is data, not code. Open the same INI and edit:
+
+  [Format]  field templates and separators (uses {name} {level} {hp} {caps} {location} {enemy} {menu} {event} tokens)
+  [Images]  per-state small-image keys (Pip-Boy, VATS, combat, explore, menu, mainmenu, loading)
+  [Buttons] up to two clickable profile buttons (label + url)
+
+The README has the full token list and key reference.</description>
+                            <typeDescriptor><type name="Optional"/></typeDescriptor>
+                        </plugin>
+                    </plugins>
+                </group>
+            </optionalFileGroups>
+        </installStep>
+
     </installSteps>
 </config>

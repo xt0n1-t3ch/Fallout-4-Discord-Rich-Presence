@@ -1,4 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Discord Rich Presence for Fallout 4">
+from pathlib import Path
+
+HERE = Path(__file__).parent
+PATH_DATA = (HERE / "_fallout_path.txt").read_text(encoding="utf-8").strip()
+
+SVG = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Discord Rich Presence for Fallout 4">
   <title>Discord Rich Presence for Fallout 4</title>
   <defs>
     <radialGradient id="bg" cx="50%" cy="55%" r="80%">
@@ -49,7 +54,7 @@
 
   <g transform="translate(540 140)" filter="url(#glow)">
     <g transform="scale(0.075)" fill="url(#green)">
-      <path d="M1424 1090H856l178-678h735L1875 1H698L0 2662h444l305-1161h568l107-411M2267 702c-426 0-616 138-682 388l-59 228h446s17-75 55-216c37-141 88-150 155-150 29 0 124 2 84 177-11 48-46 195-90 369-60 2-99 0-214 0-187 0-507 57-603 406-96 350-179 552-68 688 105 128 403 124 631-128l-52 198h452l412-1571c46-178-83-389-467-389zm-285 1533c-36 66-83 114-145 114-164 0-83-214-38-371 15-55 34-232 213-232l98-2-128 491zM3182 0l-698 2661h444L3626 0h-444M3787 1l-698 2661h444L4231 1h-444M3921 1798l940-1094c-23-2-48-3-73-3-426 0-613 137-679 387l-188 710zM4573 1515h575c49-180 82-326 107-425 35-148-53-298-199-342l117-407zM4485 1820h-569l-126 466c-42 162 63 352 374 384zM4019 3053l426-389c295-37 436-167 491-377l206-751zM6199 770c-21 95-361 1365-385 1451-36 73-85 128-151 128-157 0-80-226-36-383l314-1196h-443l-304 1150c-96 349-160 536-49 672 105 129 377 124 605-131l-54 201h444s459-1715 505-1893zM7641 5l-530 219-147 546h-169l-66 256h167l-240 894c-96 349-177 545-55 672 92 96 241 83 554 70l81-313h-94c-155 0-78-213-34-371l257-952h216l66-256h-212zM7793 101a77 77 0 1 0 77 77 76 76 0 0 0-74-77h-3zm1 143a66 66 0 1 1 64-67l1 1a64 64 0 0 1-63 66h-2z"/>
+      <path d="{PATH_DATA}"/>
     </g>
     <text x="660" y="200" font-family="Impact, 'Arial Black', sans-serif" font-size="290" font-weight="900" fill="url(#green)" letter-spacing="-8">4</text>
   </g>
@@ -67,3 +72,8 @@
 
   <rect width="1920" height="500" fill="url(#vignette)" pointer-events="none"/>
 </svg>
+"""
+
+out = HERE / "banner.svg"
+out.write_text(SVG, encoding="utf-8")
+print(f"banner.svg: {out.stat().st_size} bytes")

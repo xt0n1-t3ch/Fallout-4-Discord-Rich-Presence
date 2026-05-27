@@ -8,7 +8,10 @@ All notable changes to this project are documented here. The format follows
 
 Polish release. Adds a dedicated Pip-Boy icon slot, a dedicated VATS slot that wins over the
 combat branch, refreshed art across the seven small images and the large image, plus repo
-hygiene (sponsor button, llms.txt, art preview cleanup).
+hygiene (sponsor button, llms.txt, art preview cleanup). Documentation, banner, and the FOMOD
+installer were revamped; the project is now distributed under the **Apache License 2.0**
+(previously MIT). CI is fixed (vcpkg shallow-clone baseline error). Repository description,
+homepage, and topics are set.
 
 ### Added
 
